@@ -17,6 +17,7 @@ add_executable(Asteroids
     src/main.cpp
     src/window.cpp
     src/game.cpp
+    src/shader.cpp
 )
 
 target_include_directories(Asteroids PRIVATE

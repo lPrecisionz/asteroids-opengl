@@ -6,8 +6,8 @@ Shader::Shader(const char* vertex_path, const char* fragment_path){
   std::string vertex_code   = read_from_file(vertex_path);
   std::string fragment_code = read_from_file(fragment_path);
 
-  compile(GL_VERTEX_SHADER,   vertex_path); 
-  compile(GL_FRAGMENT_SHADER, fragment_path);
+  compile(GL_VERTEX_SHADER,   vertex_code.c_str()); 
+  compile(GL_FRAGMENT_SHADER, fragment_code.c_str());
   link();
 
   glDeleteShader(m_vertex); 
