@@ -13,4 +13,5 @@ struct mesh_data {
   const size_t arr_size; 
   const size_t stride;
   const GLenum draw_kind;
+  const unsigned int vertice_count;
 };
