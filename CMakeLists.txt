@@ -15,6 +15,8 @@ target_link_libraries(glad PUBLIC dl)
 
 add_executable(Asteroids
     src/main.cpp
+    src/window.cpp
+    src/game.cpp
 )
 
 target_include_directories(Asteroids PRIVATE

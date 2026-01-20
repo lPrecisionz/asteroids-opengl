@@ -1,9 +1,8 @@
 #include "../include/window.hpp"
-#include <GLFW/glfw3.h>
 
 namespace Asteroids{
 
-Window::Window(int version, int width, int height, const char* window_name) : m_version(version), m_width(width), m_height(height), m_window_name(window_name){
+WindowManager::WindowManager(int version, int width, int height, const char* window_name) : m_version(version), m_width(width), m_height(height), m_window_name(window_name){
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, m_version);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, m_version);
@@ -21,13 +20,9 @@ Window::Window(int version, int width, int height, const char* window_name) : m_
   glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 }
 
-Window::~Window(){
+WindowManager::~WindowManager(){
   glfwTerminate();
 }
 
-static void framebuffer_size_callback(GLFWwindow *window, int width, int height){
-  glViewport(0, 0, width, height);
-}
 
-
-};
+} // namespace lPrecisionz
