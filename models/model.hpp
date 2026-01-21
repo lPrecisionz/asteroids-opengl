@@ -3,8 +3,8 @@
 
 struct vertex_attr_data {
   GLenum type;
-  unsigned int location, 
-               attr_count;
+  unsigned int location;
+  unsigned int attr_count;
   size_t offset;
 };
 

@@ -20,6 +20,11 @@ WindowManager::WindowManager(int version, int width, int height, const char* win
   glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 }
 
+void WindowManager::clear_color(const float r, const float g, const float b, const float a){
+  glClear(GL_COLOR_BUFFER_BIT);
+  glClearColor(r, g, b, a);
+}
+
 WindowManager::~WindowManager(){
   glfwTerminate();
 }

@@ -16,8 +16,7 @@ void Mesh::bind(){
 
 void Mesh::draw(){
   bind();
-  glDrawArrays(GL_TRIANGLES, 0, m_vertice_count);
-  glGetError();
+  glDrawArrays(GL_LINES, 0, m_vertice_count);
 }
 
 void Mesh::init_vao(){
@@ -26,19 +25,17 @@ void Mesh::init_vao(){
   std::cout << "Generated VAO id: " << m_VAO << std::endl;
 }
 
-  void Mesh::init_vbo(const mesh_data &md, const std::vector<vertex_attr_data> &attr_data){
+void Mesh::init_vbo(const mesh_data &md, const std::vector<vertex_attr_data> &attr_data){
   bind();
   glGenBuffers(1, &m_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
   glBufferData(GL_ARRAY_BUFFER, md.arr_size, md.vertex_arr, md.draw_kind);
-  glCheckError();
 
-  unsigned int normalize_flag = GL_FALSE;
+  GLenum normalize_flag = GL_FALSE;
   for(auto i : attr_data){
     glVertexAttribPointer(i.location, i.attr_count, i.type, normalize_flag, md.stride, (void*)i.offset);
     glEnableVertexAttribArray(i.location);
   }
-
   std::cout << "Generated and binded VBO id: " << m_VBO << std::endl;
 }
 
