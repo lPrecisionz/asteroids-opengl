@@ -19,6 +19,8 @@ struct shader_data {
   const char* fragment_path;
 };
 
+constexpr float SPIN_SPEED = 5.0;
+
 class Game {
 private: 
   WindowManager m_window_manager;
@@ -29,6 +31,7 @@ public:
     m_window_manager(wd.version, wd.width, wd.height, wd.name),
     m_shader(sd.vertex_path, sd.fragment_path){}
   void run();
+  void handle_input(glm::mat4 &model);
 };
 
 
