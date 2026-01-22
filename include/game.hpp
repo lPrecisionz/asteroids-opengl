@@ -28,7 +28,7 @@ class Game {
 private: 
   WindowManager m_window_manager;
   Shader m_shader;
-  Mesh   m_player {player_mesh, player_vertex_attr};
+  //Mesh   m_player {player_mesh, player_vertex_attr};
   std::map<std::string, Mesh> m_meshes;
   std::vector<Entity> m_entities;
 

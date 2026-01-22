@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <ostream>
 
 namespace Asteroids{
 
@@ -23,6 +24,7 @@ void Game::run(){
     m_shader.use();
     m_player.draw();
     */
+    m_shader.use();
     renderer.draw(m_entities);
     m_window_manager.swap_buffer();
     m_window_manager.poll_events();
@@ -51,6 +53,11 @@ void Game::spawn_player(){
 
   Player player = Player(player_pos, player_vel, player_mesh);
   m_entities.push_back(player);
+
+  std::cout << "Spawned Player" << std::endl
+            << "x = " << player.m_pos.x << std::endl
+            << "y = " << player.m_pos.y << std::endl 
+            << "mesh_id = " << player.m_mesh_id << std::endl;
 }
 
 } // namespace Asteroids
