@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace Asteroids{
 
@@ -15,12 +16,12 @@ class Entity {
 public:
   point m_pos;
   point m_vel;
-  unsigned int m_mesh_id;
+  std::string m_mesh_id;
 
 public:
-  Entity(const point &pos, const point &vel, const unsigned int &mesh_id) 
+  Entity(const point &pos, const point &vel, const std::string &mesh_id) 
     : m_pos(pos), m_vel(vel), m_mesh_id(mesh_id){}
-  void move() { m_pos += m_vel; }
+  void move() { m_pos += m_vel;}
 };
 
 } //namespace Asteroids

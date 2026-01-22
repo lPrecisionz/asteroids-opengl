@@ -5,7 +5,8 @@ namespace Asteroids {
 
 class Player : public Entity{
 public:
-  Player(point pos, point vel) : Entity(pos, vel){}
+  Player(const point &pos, const point &vel, const std::string &mesh_id) 
+    : Entity(pos, vel, mesh_id){}
   void spawn_bullet();
 };
 

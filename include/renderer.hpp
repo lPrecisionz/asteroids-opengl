@@ -1,10 +1,13 @@
-#include "shader.hpp"
+#pragma once
+#include <glm/glm.hpp>
 
 namespace Asteroids{
 
 class Renderer{
 public:
-    Shader *m_shader;
+  glm::mat4 m_view; 
+  glm::mat4 m_model;
+  glm::mat4 m_projection;
 
 public:
   Renderer(){}

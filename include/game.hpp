@@ -4,6 +4,8 @@
 #include "mesh.hpp"
 #include "../models/model.hpp"
 #include "../models/player_model.hpp"
+#include "entity.hpp"
+#include "player.hpp"
 #include <map>
 
 namespace Asteroids{
@@ -28,6 +30,7 @@ private:
   Shader m_shader;
   Mesh   m_player {player_mesh, player_vertex_attr};
   std::map<std::string, Mesh> m_meshes;
+  std::vector<Entity> m_entities;
 
 public: 
   Game(const window_data &wd, const shader_data &sd) : 
@@ -40,6 +43,7 @@ public:
 private:
   void handle_input(glm::mat4 &model);
   void init_mesh_map();
+  void spawn_player();
 };
 
 

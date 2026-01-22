@@ -39,8 +39,17 @@ void Game::handle_input(glm::mat4 &model){
 
 void Game::init_mesh_map(){
   m_meshes = { 
-    {"Player", Mesh(player_mesh, player_vertex_attr)}
+    {"Ship", Mesh(player_mesh, player_vertex_attr)}
   };
+}
+
+void Game::spawn_player(){
+  point player_pos = {0, 0};
+  point player_vel = {0, 0};
+  std::string player_mesh {"Ship"};
+
+  Player player = Player(player_pos, player_vel, player_mesh);
+  m_entities.push_back(player);
 }
 
 } // namespace Asteroids
