@@ -69,9 +69,8 @@ void Game::spawn_health_bar(){
 
   for(int i = 0; i < health_count; ++i){
     float curr_x = bar_xstart + (i * health_padding);
-    float curr_y = bar_ystart + (i * health_padding);
 
-    point bar_pos = {curr_x, curr_y};
+    point bar_pos = {curr_x, bar_ystart};
     point bar_vel = {0, 0};
     std::string bar_mesh {"Ship"};
 
