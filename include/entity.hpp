@@ -17,6 +17,7 @@ public:
   point m_vel;
 
 public:
+  Entity(const point &pos, const point &vel) : m_pos(pos), m_vel(vel){}
   void move() {m_pos += m_vel;}
 };
 

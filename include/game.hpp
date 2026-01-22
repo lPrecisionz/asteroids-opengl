@@ -3,7 +3,7 @@
 #include "renderer.hpp"
 #include "mesh.hpp"
 #include "../models/model.hpp"
-#include "../models/player.hpp"
+#include "../models/player_model.hpp"
 
 namespace Asteroids{
 
