@@ -14,6 +14,7 @@ void Game::run(){
   glm::mat4 projection = glm::mat4(1.0f);
   */
   spawn_player();
+  spawn_health_bar();
   while(!m_window_manager.window_should_close()){
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     //handle_input(model);
@@ -58,6 +59,25 @@ void Game::spawn_player(){
             << "x = " << player.m_pos.x << std::endl
             << "y = " << player.m_pos.y << std::endl 
             << "mesh_id = " << player.m_mesh_id << std::endl;
+}
+
+void Game::spawn_health_bar(){
+  const unsigned int health_count { 3 };
+  const float health_padding {0.3f}, 
+              bar_xstart {-0.9}, 
+              bar_ystart {0.9};
+
+  for(int i = 0; i < health_count; ++i){
+    float curr_x = bar_xstart + (i * health_padding);
+    float curr_y = bar_ystart + (i * health_padding);
+
+    point bar_pos = {curr_x, curr_y};
+    point bar_vel = {0, 0};
+    std::string bar_mesh {"Ship"};
+
+    Entity health_ship = Player(bar_pos, bar_vel, bar_mesh);
+    m_entities.push_back(health_ship);
+  }
 }
 
 } // namespace Asteroids

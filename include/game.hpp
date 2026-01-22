@@ -44,6 +44,7 @@ private:
   void handle_input(glm::mat4 &model);
   void init_mesh_map();
   void spawn_player();
+  void spawn_health_bar();
 };
 
 
