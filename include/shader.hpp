@@ -14,7 +14,7 @@ public:
 public:
   Shader(const char* vertex_path, const char* fragment_path);
   void use() { glUseProgram(m_id); }
-  void set_mat4fv(const char* uni_name, const glm::mat4 &matrix);
+  void set_mat4fv(const char* uni_name, const glm::mat4 &matrix) const;
 private:
   unsigned int m_vertex;
   unsigned int m_fragment;

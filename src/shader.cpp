@@ -75,7 +75,7 @@ void Shader::link(){
   std::cout << "Linked program id: " << m_id << std::endl;
 }
 
-void Shader::set_mat4fv(const char* uni_name, const glm::mat4 &matrix){
+void Shader::set_mat4fv(const char* uni_name, const glm::mat4 &matrix) const{
   glUniformMatrix4fv(
     glGetUniformLocation(m_id, uni_name), 
     1, 
