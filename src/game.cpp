@@ -13,13 +13,10 @@ void Game::run(){
 
   //ortho = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
   m_shader.use();
-  m_shader.set_mat4fv("model", model);
-  m_shader.set_mat4fv("view", view);
-  m_shader.set_mat4fv("projection", projection);
-
-  while(!glfwWindowShouldClose(m_window_manager.get_window())){
+  while(!m_window_manager.window_should_close()){
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     handle_input(model);
+
     m_shader.set_mat4fv("model", model);
     m_shader.set_mat4fv("view", view);
     m_shader.set_mat4fv("projection", projection);

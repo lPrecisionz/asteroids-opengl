@@ -21,6 +21,7 @@ public:
   void swap_buffer() { glfwSwapBuffers(m_window);}
   void poll_events() { glfwPollEvents(); }
   void clear_color(const float r, const float g, const float b, const float a);
+  bool window_should_close() { return glfwWindowShouldClose(m_window);}
   static void framebuffer_size_callback(GLFWwindow *window, int width, int height){ glViewport(0, 0, width, height); }
 
 };

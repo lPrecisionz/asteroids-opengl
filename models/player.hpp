@@ -18,11 +18,11 @@ const std::vector<vertex_attr_data> player_vertex_attr {
 };
 
 const mesh_data player_mesh = {
-  // arr -> arr_size -> stride -> draw_kind -> vertice_count
   mesh_data(player_model, 
             sizeof(float) * 18, 
             sizeof(float) * 3, 
             GL_STATIC_DRAW, 
+            GL_LINES,
             6
   ) 
 };

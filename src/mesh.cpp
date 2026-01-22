@@ -4,7 +4,7 @@
 
 namespace Asteroids{
 
-Mesh::Mesh(const mesh_data md, const std::vector<vertex_attr_data> &attr_data){
+Mesh::Mesh(const mesh_data md, const std::vector<vertex_attr_data> &attr_data) : m_data(md){
   init_vao();
   init_vbo(md, attr_data);
   m_vertice_count = md.vertice_count;
@@ -16,7 +16,7 @@ void Mesh::bind(){
 
 void Mesh::draw(){
   bind();
-  glDrawArrays(GL_LINES, 0, m_vertice_count);
+  glDrawArrays(m_data.geometry_kind, 0, m_vertice_count);
 }
 
 void Mesh::init_vao(){

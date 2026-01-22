@@ -19,7 +19,7 @@ struct shader_data {
   const char* fragment_path;
 };
 
-constexpr float SPIN_SPEED = 5.0;
+constexpr float SPIN_SPEED = 5.0f;
 
 class Game {
 private: 
