@@ -10,11 +10,11 @@ Mesh::Mesh(const mesh_data md, const std::vector<vertex_attr_data> &attr_data) :
   m_vertice_count = md.vertice_count;
 }
 
-void Mesh::bind(){
+void Mesh::bind() const{
   glBindVertexArray(m_VAO);
 }
 
-void Mesh::draw(){
+void Mesh::draw() const{
   bind();
   glDrawArrays(m_data.geometry_kind, 0, m_vertice_count);
 }

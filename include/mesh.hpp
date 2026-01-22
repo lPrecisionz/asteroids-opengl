@@ -14,8 +14,8 @@ private:
 
 public: 
   Mesh(const mesh_data md, const std::vector<vertex_attr_data> &attr_data); 
-  void bind();
-  void draw();
+  void bind() const;
+  void draw() const;
 
 private: 
   void init_vao();
