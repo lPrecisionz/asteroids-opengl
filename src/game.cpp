@@ -50,7 +50,7 @@ void Game::init_mesh_map(){
 void Game::spawn_player(){
   point player_pos = {0, 0};
   point player_vel = {0, 0};
-  float player_angle = 90.0f; 
+  float player_angle = 0.0f; 
   float player_scale = 1.0f;
   std::string player_mesh {"Ship"};
 
@@ -63,7 +63,7 @@ void Game::spawn_health_bar(){
   const float health_padding {0.1f}, 
               bar_xstart     {-0.95}, 
               bar_ystart     {0.9}, 
-              bar_angle      {90.0f}, 
+              bar_angle      {0.0f}, 
               bar_scale      {0.8f};
 
   for(int i = 0; i < health_count; ++i){
