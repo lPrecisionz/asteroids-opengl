@@ -50,21 +50,18 @@ void Game::init_mesh_map(){
 void Game::spawn_player(){
   point player_pos = {0, 0};
   point player_vel = {0, 0};
+  float player_angle = 0.0f; 
+  float player_scale = 1.0f;
   std::string player_mesh {"Ship"};
 
-  Player player = Player(player_pos, player_vel, player_mesh);
+  Player player = Player(player_pos, player_vel, player_mesh, player_scale, player_angle);
   m_entities.push_back(player);
-
-  std::cout << "Spawned Player" << std::endl
-            << "x = " << player.m_pos.x << std::endl
-            << "y = " << player.m_pos.y << std::endl 
-            << "mesh_id = " << player.m_mesh_id << std::endl;
 }
 
 void Game::spawn_health_bar(){
   const unsigned int health_count { 3 };
-  const float health_padding {0.3f}, 
-              bar_xstart {-0.9}, 
+  const float health_padding {0.1f}, 
+              bar_xstart {-0.95}, 
               bar_ystart {0.9};
 
   for(int i = 0; i < health_count; ++i){
@@ -75,6 +72,7 @@ void Game::spawn_health_bar(){
     std::string bar_mesh {"Ship"};
 
     Entity health_ship = Player(bar_pos, bar_vel, bar_mesh);
+    health_ship.m_scale = 0.5f;
     m_entities.push_back(health_ship);
   }
 }
