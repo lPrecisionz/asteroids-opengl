@@ -2,7 +2,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <ostream>
 
 namespace Asteroids{
 
@@ -11,6 +10,7 @@ void Game::run(){
 
   spawn_player();
   spawn_health_bar();
+
   while(!m_window_manager.window_should_close()){
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
@@ -35,6 +35,14 @@ void Game::init_mesh_map(){
   };
 }
 
+struct player_data {
+  point player_pos; 
+  point player_vel;
+  float player_angle;
+  float player_scale;
+  std::string player_mesh;
+};
+
 void Game::spawn_player(){
   point player_pos = {0, 0};
   point player_vel = {0, 0};
@@ -48,7 +56,7 @@ void Game::spawn_player(){
 
 void Game::spawn_health_bar(){
   const unsigned int health_count { 3 };
-  const float health_padding {0.1f}, 
+  const float health_padding {0.075f}, 
               bar_xstart     {-0.95}, 
               bar_ystart     {0.9}, 
               bar_angle      {0.0f}, 

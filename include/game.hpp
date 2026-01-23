@@ -22,23 +22,33 @@ struct shader_data {
   const char* fragment_path;
 };
 
+struct player_data {
+  point player_pos; 
+  point player_vel;
+  float player_angle;
+  float player_scale;
+  std::string player_mesh;
+};
+
 constexpr float SPIN_SPEED = 5.0f;
 
 class Game {
 private: 
   WindowManager m_window_manager;
   Shader m_shader;
-  //Mesh   m_player {player_mesh, player_vertex_attr};
+  Player m_player;
   std::map<std::string, Mesh> m_meshes;
   std::vector<Entity> m_entities;
 
 public: 
-  Game(const window_data &wd, const shader_data &sd) : 
+  Game(const window_data &wd, const shader_data &sd, const player_data &pd) : 
     m_window_manager(wd.version, wd.width, wd.height, wd.name),
-    m_shader(sd.vertex_path, sd.fragment_path){
+    m_shader(sd.vertex_path, sd.fragment_path), 
+    m_player(Player(pd.player_pos, pd.player_vel, pd.player_mesh, pd.player_angle, pd.player_scale)){
     init_mesh_map();
   }
   void run();
+
 
 private:
   void handle_input(glm::mat4 &model);
