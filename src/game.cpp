@@ -9,22 +9,10 @@ namespace Asteroids{
 void Game::run(){
   Renderer renderer {m_meshes, m_shader};
 
-  /*glm::mat4 model = glm::mat4(1.0f);
-  glm::mat4 view  = glm::mat4(1.0f);
-  glm::mat4 projection = glm::mat4(1.0f);
-  */
   spawn_player();
   spawn_health_bar();
   while(!m_window_manager.window_should_close()){
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
-    //handle_input(model);
-    /*m_shader.use();
-    m_shader.set_mat4fv("model", model);
-    m_shader.set_mat4fv("view", view);
-    m_shader.set_mat4fv("projection", projection);
-    m_shader.use();
-    m_player.draw();
-    */
     m_shader.use();
     renderer.draw(m_entities);
     m_window_manager.swap_buffer();
