@@ -3,6 +3,7 @@
 #include "mesh.hpp"
 #include "entity.hpp"
 #include "player.hpp"
+#include "projectile.hpp"
 #include "shader.hpp"
 #include <map>
 
@@ -43,6 +44,7 @@ private:
   void handle_input(const float &dt);
   void init_mesh_map();
   Player spawn_player();
+  Projectile spawn_proj();
   void spawn_health_bar();
 };
 

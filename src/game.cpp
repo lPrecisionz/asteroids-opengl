@@ -58,6 +58,21 @@ Player Game::spawn_player(){
   return Player(player_pos, player_vel, player_mesh, player_scale, player_angle);
 }
 
+Projectile Game::spawn_proj(){
+  // position should somewhat be offsetted since bullets shouldn't spawn at origin
+  point proj_pos = {0, 0};
+  float proj_angle = m_player->m_angle; 
+  float proj_scale = 1.0f;
+  std::string proj_mesh {"Projectile"};
+
+  const float vel_x = cos(proj_angle), 
+              vel_y = sin(proj_angle);
+
+  point proj_vel = {vel_x, vel_y};
+
+  return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle);
+}
+
 void Game::spawn_health_bar(){
   const unsigned int health_count { 3 };
   const float health_padding {0.075f}, 
