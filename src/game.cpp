@@ -12,22 +12,29 @@ void Game::run(){
   m_player = &player;
   spawn_health_bar();
 
+  float prev_frame {0}, 
+        delta_time {0};
   while(!m_window_manager.window_should_close()){
+    float curr_frame = glfwGetTime();
+    delta_time = curr_frame - prev_frame;
+    prev_frame = curr_frame;
+
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
-    handle_input();
+    handle_input(delta_time);
     renderer.draw_scene(m_entities, *m_player);
+
     m_window_manager.swap_buffer();
     m_window_manager.poll_events();
   }
 }
 
-void Game::handle_input(){
+void Game::handle_input(const float &dt){
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_RIGHT) == GLFW_PRESS){
-    m_player->rotate(-SPIN_SPEED);
+    m_player->rotate(-SPIN_SPEED * dt);
   }
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_LEFT) == GLFW_PRESS){
-    m_player->rotate(SPIN_SPEED);
+    m_player->rotate(SPIN_SPEED * dt);
   }
 }
 

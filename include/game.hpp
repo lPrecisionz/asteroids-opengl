@@ -22,7 +22,7 @@ struct shader_data {
   const char* fragment_path;
 };
 
-constexpr float SPIN_SPEED = 5.0f;
+constexpr float SPIN_SPEED = 250.0f;
 
 class Game {
 private: 
@@ -42,7 +42,7 @@ public:
 
 
 private:
-  void handle_input();
+  void handle_input(const float &dt);
   void init_mesh_map();
   Player spawn_player();
   void spawn_health_bar();
