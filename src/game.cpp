@@ -1,4 +1,6 @@
 #include "../include/game.hpp"
+#include "../models/player_model.hpp"
+#include "../include/renderer.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>

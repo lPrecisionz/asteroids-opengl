@@ -3,6 +3,7 @@
 #include "mesh.hpp"
 #include "entity.hpp"
 #include "player.hpp"
+#include "shader.hpp"
 #include <map>
 
 namespace Asteroids{
