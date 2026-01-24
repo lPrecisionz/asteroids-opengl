@@ -25,6 +25,7 @@ void Game::run(){
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
     handle_input(delta_time);
+    update_entities(delta_time);
     renderer.draw_scene(m_entities, *m_player);
 
     m_window_manager.swap_buffer();
@@ -96,6 +97,12 @@ void Game::spawn_health_bar(){
     Entity health_ship = Player(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle);
     health_ship.m_scale = 0.5f;
     m_entities.push_back(health_ship);
+  }
+}
+
+void Game::update_entities(const float &dt){
+  for(auto &e : m_entities){
+    e.move(dt);
   }
 }
 

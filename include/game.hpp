@@ -46,6 +46,7 @@ private:
   Player spawn_player();
   Projectile spawn_proj();
   void spawn_health_bar();
+  void update_entities(const float &dt);
 };
 
 } // namespace Asteroids
