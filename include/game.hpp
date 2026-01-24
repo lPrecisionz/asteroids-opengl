@@ -42,7 +42,7 @@ public:
 
 
 private:
-  void handle_input(glm::mat4 &model);
+  void handle_input();
   void init_mesh_map();
   Player spawn_player();
   void spawn_health_bar();

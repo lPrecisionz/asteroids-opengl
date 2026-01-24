@@ -15,18 +15,19 @@ void Game::run(){
   while(!m_window_manager.window_should_close()){
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
+    handle_input();
     renderer.draw_scene(m_entities, *m_player);
     m_window_manager.swap_buffer();
     m_window_manager.poll_events();
   }
 }
 
-void Game::handle_input(glm::mat4 &model){
+void Game::handle_input(){
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_RIGHT) == GLFW_PRESS){
-    model = glm::rotate(model, glm::radians(-SPIN_SPEED), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_player->rotate(-SPIN_SPEED);
   }
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_LEFT) == GLFW_PRESS){
-    model = glm::rotate(model, glm::radians(SPIN_SPEED), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_player->rotate(SPIN_SPEED);
   }
 }
 
