@@ -10,10 +10,14 @@ struct point {
     y += other.y; 
     return *this;
   }
-
   point& operator*(const float &factor){
     x *= factor; 
     y *= factor; 
+    return *this;
+  }
+  point& operator-(const point &other){
+    x -= other.x; 
+    y -= other.y;
     return *this;
   }
 };
@@ -31,7 +35,7 @@ public:
   Entity(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
     : m_pos(pos), m_vel(vel), m_mesh_id(mesh_id), m_scale(scale), m_angle(angle){}
   void move(const float &dt) { m_pos += m_vel; }
-  virtual void update();
+  virtual void update(const float &dt) {}
 };
 
 } //namespace Asteroids

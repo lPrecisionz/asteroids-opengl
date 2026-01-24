@@ -6,6 +6,7 @@
 #include "projectile.hpp"
 #include "shader.hpp"
 #include <map>
+#include <memory>
 
 namespace Asteroids{
 
@@ -31,7 +32,7 @@ private:
   Shader m_shader;
   Player *m_player;
   std::map<std::string, Mesh> m_meshes;
-  std::vector<Entity> m_entities;
+  std::vector<std::unique_ptr<Entity>> m_entities;
 
 public: 
   Game(const window_data &wd, const shader_data &sd) : 

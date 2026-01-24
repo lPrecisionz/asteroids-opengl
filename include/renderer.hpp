@@ -5,6 +5,7 @@
 #include "mesh.hpp"
 #include "shader.hpp"
 #include "player.hpp"
+#include <memory>
 #include <map>
 
 namespace Asteroids{
@@ -15,17 +16,16 @@ private:
   glm::mat4 m_model      {glm::mat4(1.0f)};
   glm::mat4 m_view       {glm::mat4(1.0f)}; 
   glm::mat4 m_projection {glm::mat4(1.0f)};
-  //glm::mat4 m_projection {glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.01f, 100.0f)};
 
   const std::map<std::string, Mesh>* m_mesh_ref;
 
 public:
   Renderer(const std::map<std::string, Mesh> &meshes, const Shader &shader) 
     : m_mesh_ref(&meshes), m_shader_ref(&shader){}
-  void draw_scene(const std::vector<Entity> &entities, const Player& p);
+  void draw_scene(const std::vector<std::unique_ptr<Entity>> &entities, const Player& p);
 
 private:
-  void draw_entities(const std::vector<Entity> &entities);
+  void draw_entities(const std::vector<std::unique_ptr<Entity>> &entities);
   void draw_player(const Player& p);
 };
 

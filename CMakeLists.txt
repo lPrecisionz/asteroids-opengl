@@ -22,6 +22,7 @@ add_executable(Asteroids
     src/error.cpp
     src/renderer.cpp
     src/player.cpp
+    src/projectile.cpp
 )
 
 target_include_directories(Asteroids PRIVATE
