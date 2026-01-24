@@ -1,9 +1,6 @@
 #pragma once
 #include "window.hpp"
-#include "renderer.hpp"
 #include "mesh.hpp"
-#include "../models/model.hpp"
-#include "../models/player_model.hpp"
 #include "entity.hpp"
 #include "player.hpp"
 #include <map>
@@ -40,13 +37,11 @@ public:
   }
   void run();
 
-
 private:
   void handle_input(const float &dt);
   void init_mesh_map();
   Player spawn_player();
   void spawn_health_bar();
 };
-
 
 } // namespace Asteroids
