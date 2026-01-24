@@ -39,6 +39,10 @@ void Game::handle_input(const float &dt){
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_LEFT) == GLFW_PRESS){
     m_player->rotate(SPIN_SPEED * dt);
   }
+  if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_SPACE) == GLFW_PRESS){
+    Projectile p = spawn_proj();
+    m_entities.push_back(p);
+  }
 }
 
 void Game::init_mesh_map(){
