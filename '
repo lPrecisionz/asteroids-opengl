@@ -22,7 +22,6 @@ private:
 public:
   Renderer(const std::map<std::string, Mesh> &meshes, const Shader &shader) 
     : m_mesh_ref(&meshes), m_shader_ref(&shader){}
-  void draw_scene(const std::vector<Entity> &entities, const Player& p);
 
 private:
   void draw_entities(const std::vector<Entity> &entities);

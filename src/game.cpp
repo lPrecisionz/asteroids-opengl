@@ -8,13 +8,14 @@ namespace Asteroids{
 void Game::run(){
   Renderer renderer {m_meshes, m_shader};
 
-  spawn_player();
+  Player player = spawn_player();
+  m_player = &player;
   spawn_health_bar();
 
   while(!m_window_manager.window_should_close()){
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
-    renderer.draw(m_entities);
+    renderer.draw_scene(m_entities, *m_player);
     m_window_manager.swap_buffer();
     m_window_manager.poll_events();
   }
@@ -35,30 +36,21 @@ void Game::init_mesh_map(){
   };
 }
 
-struct player_data {
-  point player_pos; 
-  point player_vel;
-  float player_angle;
-  float player_scale;
-  std::string player_mesh;
-};
-
-void Game::spawn_player(){
+Player Game::spawn_player(){
   point player_pos = {0, 0};
   point player_vel = {0, 0};
   float player_angle = 0.0f; 
   float player_scale = 1.0f;
   std::string player_mesh {"Ship"};
 
-  Player player = Player(player_pos, player_vel, player_mesh, player_scale, player_angle);
-  m_entities.push_back(player);
+  return Player(player_pos, player_vel, player_mesh, player_scale, player_angle);
 }
 
 void Game::spawn_health_bar(){
   const unsigned int health_count { 3 };
   const float health_padding {0.075f}, 
               bar_xstart     {-0.95}, 
-              bar_ystart     {0.9}, 
+              bar_ystart     { 0.9 }, 
               bar_angle      {0.0f}, 
               bar_scale      {0.8f};
 
