@@ -12,6 +12,10 @@ const float player_model [] = {
     0.035f,  -0.04f, 0.0f  // bar-right
 };
 
+const float SHIP_TOP = player_model[1]; 
+const float SHIP_BOTTOM = player_model[4];
+const float SHIP_HEIGHT = SHIP_TOP - SHIP_BOTTOM;
+
 const std::vector<vertex_attr_data> player_vertex_attr {
   vertex_attr_data(GL_FLOAT, 0, 3, 0) // type -> location -> attr count -> offset
 };
@@ -25,3 +29,4 @@ const mesh_data player_mesh = {
             6
   ) 
 };
+

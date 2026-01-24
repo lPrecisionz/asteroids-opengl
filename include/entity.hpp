@@ -30,7 +30,7 @@ public:
 public:
   Entity(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
     : m_pos(pos), m_vel(vel), m_mesh_id(mesh_id), m_scale(scale), m_angle(angle){}
-  void move() { m_pos += m_vel; }
+  void move(const float &dt) { m_pos += m_vel; }
 };
 
 } //namespace Asteroids
