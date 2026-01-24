@@ -104,6 +104,7 @@ void Game::spawn_health_bar(){
 void Game::update_entities(const float &dt){
   for(auto &e : m_entities){
     e.move(dt);
+    // if its a bullet -> check traveled dist
   }
 }
 

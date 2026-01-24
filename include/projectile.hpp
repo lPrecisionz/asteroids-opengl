@@ -11,6 +11,7 @@ public:
 public:
   Projectile(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
     : Entity(pos, vel, mesh_id, scale, angle), start_pos(pos){}
+  void update();
 };
 
 } // namespace Asteroids
