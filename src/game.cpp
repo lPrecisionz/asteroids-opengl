@@ -68,14 +68,19 @@ Projectile Game::spawn_proj(){
   // position should somewhat be offsetted since bullets shouldn't spawn at origin
   // remember to do that later
   point proj_pos = {0, 0};
-  float proj_angle = m_player->m_angle; 
-  float proj_scale = 0.1f;
+  float proj_angle = m_player->m_angle + 90.0f; 
+  float proj_scale = 0.05f;
   std::string proj_mesh {"Projectile"};
 
-  const float vel_x = cos(proj_angle), 
-              vel_y = sin(proj_angle);
+  const float vel_x = cos(glm::radians(proj_angle)), 
+              vel_y = sin(glm::radians(proj_angle));
 
-  point proj_vel = {vel_x, vel_y};
+  std::cout << "angle : " << proj_angle << std::endl 
+            << "vel x : " << vel_x << std::endl 
+            << "vel y : " << vel_y << std::endl;
+
+  const float speed = 0.01f;
+  point proj_vel = {vel_x * speed, vel_y * speed};
 
   return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle);
 }
@@ -103,9 +108,7 @@ void Game::spawn_health_bar(){
 
 void Game::update_entities(const float &dt){
   for(auto &e : m_entities){
-    e.move(dt);
-    std::cout << "entity x: " << e.m_pos.x << std::endl
-              << "entity y: " << e.m_pos.y;
+    e.move();
   }
 }
 
