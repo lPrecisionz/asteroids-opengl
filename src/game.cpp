@@ -69,7 +69,7 @@ Projectile Game::spawn_proj(){
   // remember to do that later
   point proj_pos = {0, 0};
   float proj_angle = m_player->m_angle; 
-  float proj_scale = 1.0f;
+  float proj_scale = 0.1f;
   std::string proj_mesh {"Projectile"};
 
   const float vel_x = cos(proj_angle), 
@@ -104,6 +104,8 @@ void Game::spawn_health_bar(){
 void Game::update_entities(const float &dt){
   for(auto &e : m_entities){
     e.move(dt);
+    std::cout << "entity x: " << e.m_pos.x << std::endl
+              << "entity y: " << e.m_pos.y;
   }
 }
 
