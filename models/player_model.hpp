@@ -2,15 +2,14 @@
 #include "model.hpp"
 #include <vector>
 
+// The 2 bottom vertices were calculated manually using linear interpolation
 const float player_model [] = {
-   0.0f,   0.1f, 0.0f, // top
-  -0.05f,  -0.1f, 0.0f, // bottom-left
-   0.0f,   0.1f, 0.0f, // top
-   0.05f,  -0.1f, 0.0f,  // bottom-right
-   -0.035f, -0.04f, 0.0f, 
-   0.035f,  -0.04f, 0.0f
-  //-0.7f,   0.0f, 0.0f, 
-   //0.7f,   0.0f, 0.0f
+    0.000f,   0.1f,  0.0f, // top
+   -0.050f,  -0.1f,  0.0f, // bottom-left
+    0.000f,   0.10f, 0.0f, // top
+    0.050f,  -0.10f, 0.0f, // bottom-right
+   -0.035f,  -0.04f, 0.0f, // bar-left
+    0.035f,  -0.04f, 0.0f  // bar-right
 };
 
 const std::vector<vertex_attr_data> player_vertex_attr {
@@ -26,11 +25,3 @@ const mesh_data player_mesh = {
             6
   ) 
 };
-/*
-struct mesh_data {
-  const float* vertex_arr; 
-  const size_t arr_size; 
-  const size_t stride;
-  const GLenum draw_kind;
-  const unsigned int vertice_count;
-};*/
