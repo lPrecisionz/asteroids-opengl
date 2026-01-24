@@ -60,6 +60,7 @@ Player Game::spawn_player(){
 
 Projectile Game::spawn_proj(){
   // position should somewhat be offsetted since bullets shouldn't spawn at origin
+  // remember to do that later
   point proj_pos = {0, 0};
   float proj_angle = m_player->m_angle; 
   float proj_scale = 1.0f;
