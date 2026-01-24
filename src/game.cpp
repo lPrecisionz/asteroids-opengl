@@ -43,6 +43,7 @@ void Game::handle_input(const float &dt){
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_SPACE) == GLFW_PRESS){
     Projectile p = spawn_proj();
     m_entities.push_back(p);
+    std::cout << "Shot fired!" << std::endl;
   }
 }
 
