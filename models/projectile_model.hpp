@@ -9,11 +9,11 @@ const float projectile_model [] = {
   -0.1f, -0.1f, 0.0f  // bottom left
 };
 
-const std::vector<vertex_attr_data> player_vertex_attr {
+const std::vector<vertex_attr_data> proj_vert_attr {
   vertex_attr_data(GL_FLOAT, 0, 3, 0) // type -> location -> attr count -> offset
 };
 
-const mesh_data player_mesh = {
+const mesh_data proj_mesh = {
   mesh_data(projectile_model, 
             sizeof(float) * 12, 
             sizeof(float) * 3, 

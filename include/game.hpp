@@ -21,6 +21,7 @@ struct shader_data {
 };
 
 constexpr float SPIN_SPEED = 250.0f;
+constexpr float PROJ_SPEED = 250.0f;
 
 class Game {
 private: 
