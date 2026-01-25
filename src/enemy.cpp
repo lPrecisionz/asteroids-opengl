@@ -4,9 +4,36 @@ namespace Asteroids{
 
 void Enemy::update(const float &dt){
   move(dt);
-  if(m_state == OutOfBounds){
-
+  switch(m_state){
+    case EnemyState::WANDERING:
+      handle_wandering();
+      break;
+    case EnemyState::IN_VIEW: 
+      // do something
+      break;
+    case EnemyState::DEAD: 
+      m_should_destroy = true;
+      break;
+    case EnemyState::OUT_OF_BOUNDS:
+      m_should_destroy = true;
+      break;
   }
 }
+
+void Enemy::handle_wandering(){
+  if(m_pos.x > uni_upper_bound || m_pos.x < uni_lower_bound)
+    m_vel.x *=-1;
+  if(m_pos.y > uni_upper_bound || m_pos.y < uni_lower_bound)
+    m_vel.y *=-1;
+
+  bool x_in_view = m_pos.x > -1 && m_pos.x < 1, 
+       y_in_view = m_pos.y > -1 && m_pos.y < 1;
+
+  if(x_in_view && y_in_view)
+    m_state = EnemyState::IN_VIEW;
+}
+
+void Enemy::handle_in_view(){
+
 
 } // namespace Asteroids
