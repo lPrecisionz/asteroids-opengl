@@ -41,7 +41,6 @@ void Game::handle_input(const float &dt){
     m_player->rotate(SPIN_SPEED * dt);
   }
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_SPACE) == GLFW_PRESS){
-    //Projectile p = spawn_proj();
     std::unique_ptr<Projectile> proj (new Projectile(spawn_proj()));
     m_entities.push_back(
       std::unique_ptr<Projectile>(new Projectile(spawn_proj()))
@@ -68,7 +67,6 @@ Player Game::spawn_player(){
 
 Projectile Game::spawn_proj(){
   float ship_height = (SHIP_HEIGHT * m_player->m_scale) / 2.0f;
-  point proj_pos = {0, 0};
   float proj_angle = m_player->m_angle + PLAYER_OFFSET_ANGLE; 
   float proj_scale = 0.05f;
   std::string proj_mesh {"Projectile"};
@@ -78,7 +76,7 @@ Projectile Game::spawn_proj(){
               speed = PROJ_SPEED;
 
   point proj_vel = {vel_x * speed, vel_y * speed};
-  proj_pos += point(vel_x * ship_height, vel_y * ship_height);
+  point proj_pos = point(vel_x * ship_height, vel_y * ship_height);
 
   return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle);
 }
@@ -108,8 +106,7 @@ void Game::spawn_health_bar(){
 
 void Game::update_entities(const float &dt){
   for(auto &e : m_entities){
-    e->update(dt);
-    // if its a bullet -> check traveled dist
+    e->move(dt);
   }
 }
 
