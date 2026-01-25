@@ -22,7 +22,7 @@ You’ll need the following installed:
 
 1. Clone the repository:
 ```bash
-git clone <https://github.com/lPrecisionz/asteroids-opengl.git
+git clone https://github.com/lPrecisionz/asteroids-opengl.git
 cd asteroids-opengl
 ```
 2. Ensure all dependencies are installed and available.
@@ -38,6 +38,6 @@ cmake --build build
 ./build/Asteroids
 ```
 
-###License
+### License
 
 This project is for learning purposes. Feel free to fork and modify it. 
