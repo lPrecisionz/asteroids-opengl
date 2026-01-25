@@ -3,8 +3,10 @@
 #include "mesh.hpp"
 #include "entity.hpp"
 #include "player.hpp"
+#include "enemy.hpp"
 #include "projectile.hpp"
 #include "shader.hpp"
+#include "random.hpp"
 #include <map>
 #include <memory>
 
@@ -33,6 +35,7 @@ private:
   Player *m_player;
   std::map<std::string, Mesh> m_meshes;
   std::vector<std::unique_ptr<Entity>> m_entities;
+  RandomEngine m_random_engine;
 
 public: 
   Game(const window_data &wd, const shader_data &sd) : 
@@ -45,9 +48,10 @@ public:
 private:
   void handle_input(const float &dt);
   void init_mesh_map();
-  Player spawn_player();
+  Player     spawn_player();
   Projectile spawn_proj();
-  void spawn_health_bar();
+  Enemy      spawn_enemy();
+  void       spawn_health_bar();
   void update_entities(const float &dt);
   void cleanup_entities();
 };

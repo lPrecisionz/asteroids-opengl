@@ -85,6 +85,12 @@ Projectile Game::spawn_proj(){
   return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle);
 }
 
+Enemy Game::spawn_enemy(){
+  float enemy_angle = m_random_engine.random_angle();
+  point enemy_pos = {m_random_engine.random_ndc(), m_random_engine.random_ndc()};
+
+}
+
 void Game::spawn_health_bar(){
   const unsigned int health_count { 3 };
   const float health_padding {0.075f}, 
