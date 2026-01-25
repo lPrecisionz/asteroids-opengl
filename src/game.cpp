@@ -1,6 +1,7 @@
 #include "../include/game.hpp"
 #include "../models/player_model.hpp"
 #include "../models/projectile_model.hpp"
+#include "../models/asteroids.hpp"
 #include "../include/renderer.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -52,8 +53,9 @@ void Game::handle_input(const float &dt){
 
 void Game::init_mesh_map(){
   m_meshes = { 
-    { "Ship", Mesh(player_mesh, player_vertex_attr) },
-    { "Projectile", Mesh(proj_mesh, proj_vert_attr) }
+    { "Ship",       Mesh(player_mesh    , player_vertex_attr)   },
+    { "Projectile", Mesh(proj_mesh      , proj_vert_attr)       }, 
+    { "Asteroid01", Mesh(asteroid01_mesh, asteroid01_vertex_arr)}
   };
 }
 

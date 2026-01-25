@@ -51,4 +51,3 @@ const mesh_data asteroid01_mesh = {
             22
   ) 
 };
-
