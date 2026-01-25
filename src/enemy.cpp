@@ -1,4 +1,5 @@
 #include "../include/enemy.hpp"
+#include <iostream>
 
 namespace Asteroids{
 
@@ -15,6 +16,7 @@ void Enemy::update(const float &dt){
       m_should_destroy = true;
       break;
     case EnemyState::OUT_OF_BOUNDS:
+      std::cout << "Destroyed!" << std::endl;
       m_should_destroy = true;
       break;
   }

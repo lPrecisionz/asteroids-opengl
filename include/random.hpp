@@ -11,7 +11,7 @@ private:
   std::mt19937 m_rng;
   std::uniform_real_distribution<float> m_coord_dist {-1.0f, 1.0f};
   std::uniform_real_distribution<float> m_angle_dist {0.0f, 360.0f};
-  std::uniform_real_distribution<float> m_scale_dist {0.5f, 1.0f};
+  std::uniform_real_distribution<float> m_scale_dist {0.1f, 1.0f};
   std::piecewise_constant_distribution<float> m_multi_dist {universe_bounds.begin(), universe_bounds.end(), weights.begin()};
 
 public:

@@ -96,9 +96,9 @@ Enemy Game::spawn_enemy(){
 
   const float vel_x = cos(glm::radians(enemy_angle)), 
               vel_y = sin(glm::radians(enemy_angle)), 
-              speed = PROJ_SPEED;
+              speed = 0.01;
   point enemy_vel = {vel_x * speed, vel_y * speed};
-  point enemy_pos = {m_random_engine.random_ndc(), m_random_engine.random_ndc()}; 
+  point enemy_pos = {m_random_engine.random_outside_coord(), m_random_engine.random_outside_coord()}; 
 
   return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle);
 }
