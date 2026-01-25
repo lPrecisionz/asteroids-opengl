@@ -44,9 +44,13 @@ void Game::handle_input(const float &dt){
     m_player->rotate(SPIN_SPEED * dt);
   }
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_SPACE) == GLFW_PRESS){
-    std::unique_ptr<Projectile> proj (new Projectile(spawn_proj()));
     m_entities.push_back(
       std::unique_ptr<Projectile>(new Projectile(spawn_proj()))
+    );
+  }
+  if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_E) == GLFW_PRESS){
+    m_entities.push_back(
+      std::unique_ptr<Enemy>(new Enemy(spawn_enemy()))
     );
   }
 }
@@ -88,13 +92,13 @@ Projectile Game::spawn_proj(){
 Enemy Game::spawn_enemy(){
   float enemy_angle = m_random_engine.random_angle();
   float enemy_scale = m_random_engine.random_scale();
-  point enemy_pos = {m_random_engine.random_ndc(), m_random_engine.random_ndc()}; 
   std::string enemy_mesh {"Asteroid01"};
 
   const float vel_x = cos(glm::radians(enemy_angle)), 
               vel_y = sin(glm::radians(enemy_angle)), 
               speed = PROJ_SPEED;
   point enemy_vel = {vel_x * speed, vel_y * speed};
+  point enemy_pos = {m_random_engine.random_ndc(), m_random_engine.random_ndc()}; 
 
   return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle);
 }

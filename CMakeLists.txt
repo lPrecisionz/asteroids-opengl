@@ -23,6 +23,7 @@ add_executable(Asteroids
     src/renderer.cpp
     src/player.cpp
     src/projectile.cpp
+    src/enemy.cpp
 )
 
 target_include_directories(Asteroids PRIVATE
