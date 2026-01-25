@@ -3,15 +3,19 @@
 
 namespace Asteroids{
 
-class Enemy : Entity {
-public:
-  const float m_speed {1.0f};
+enum EnemyState {
+  ALIVE, 
+  OUT_OF_BOUND, 
+  KILLED
+};
 
+class Enemy : Entity {
+public: 
+  EnemyState m_state;
 public: 
   Enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
-  : Entity(pos, vel, mesh_id, scale, angle){}
-
-
+  : Entity(pos, vel, mesh_id, scale, angle), 
+    m_state(EnemyState::ALIVE){}
 };
 
 }// namespace Asteroids
