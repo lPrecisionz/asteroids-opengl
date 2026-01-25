@@ -25,6 +25,7 @@ public:
 private:
   void handle_wandering();
   void handle_in_view();
+  bool is_in_view();
 };
 
 }// namespace Asteroids

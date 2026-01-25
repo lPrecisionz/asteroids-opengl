@@ -9,7 +9,7 @@ void Enemy::update(const float &dt){
       handle_wandering();
       break;
     case EnemyState::IN_VIEW: 
-      // do something
+      handle_in_view();
       break;
     case EnemyState::DEAD: 
       m_should_destroy = true;
@@ -25,15 +25,19 @@ void Enemy::handle_wandering(){
     m_vel.x *=-1;
   if(m_pos.y > uni_upper_bound || m_pos.y < uni_lower_bound)
     m_vel.y *=-1;
-
-  bool x_in_view = m_pos.x > -1 && m_pos.x < 1, 
-       y_in_view = m_pos.y > -1 && m_pos.y < 1;
-
-  if(x_in_view && y_in_view)
+  if(is_in_view())
     m_state = EnemyState::IN_VIEW;
 }
 
 void Enemy::handle_in_view(){
+  if(!is_in_view())
+    m_state = EnemyState::OUT_OF_BOUNDS;
+}
 
+bool Enemy::is_in_view(){
+  bool x_in_view = m_pos.x > -1 && m_pos.x < 1, 
+    y_in_view = m_pos.y > -1 && m_pos.y < 1;
+  return x_in_view && y_in_view;
+}
 
 } // namespace Asteroids
