@@ -29,6 +29,7 @@ void Game::run(){
 
     handle_input(delta_time);
     update_entities(delta_time);
+    asteroid_player_coll();
     cleanup_entities();
 
     m_window_manager.swap_buffer();
@@ -138,5 +139,14 @@ void Game::cleanup_entities(){
       m_entities.erase(m_entities.begin() + i);
   }
 }
+
+void Game::asteroid_player_coll(){
+  for(auto&e : m_entities){
+    float curr_distance = sqrt(pow(m_player->m_pos.x - e->m_pos.x,2) + pow(m_player->m_pos.y - e->m_pos.y,2));
+    if(curr_distance - m_player->m_radius)
+      std::cout << "Collision!" << std::endl;
+  }
+}
+
 
 } // namespace Asteroids
