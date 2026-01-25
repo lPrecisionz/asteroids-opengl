@@ -8,6 +8,7 @@ private:
   std::mt19937 m_rng;
   std::uniform_real_distribution<float> m_coord_dist {-1.0f, 1.0f};
   std::uniform_real_distribution<float> m_angle_dist {0.0f, 360.0f};
+  std::uniform_real_distribution<float> m_scale_dist {0.5f, 1.0f};
 
 public:
   RandomEngine() { 
@@ -16,6 +17,7 @@ public:
   };
   float random_ndc()   { return m_coord_dist(m_rng); }
   float random_angle() { return m_angle_dist(m_rng); }
+  float random_scale() { return m_scale_dist(m_rng); }
 };
 
 } // namespace Asteroids

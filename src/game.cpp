@@ -87,8 +87,16 @@ Projectile Game::spawn_proj(){
 
 Enemy Game::spawn_enemy(){
   float enemy_angle = m_random_engine.random_angle();
-  point enemy_pos = {m_random_engine.random_ndc(), m_random_engine.random_ndc()};
+  float enemy_scale = m_random_engine.random_scale();
+  point enemy_pos = {m_random_engine.random_ndc(), m_random_engine.random_ndc()}; 
+  std::string enemy_mesh {"Asteroid01"};
 
+  const float vel_x = cos(glm::radians(enemy_angle)), 
+              vel_y = sin(glm::radians(enemy_angle)), 
+              speed = PROJ_SPEED;
+  point enemy_vel = {vel_x * speed, vel_y * speed};
+
+  return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle);
 }
 
 void Game::spawn_health_bar(){
