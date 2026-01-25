@@ -37,8 +37,10 @@ void Enemy::handle_in_view(){
 }
 
 bool Enemy::is_in_view(){
-  bool x_in_view = m_pos.x > -1 && m_pos.x < 1, 
-    y_in_view = m_pos.y > -1 && m_pos.y < 1;
+  const float hitbox_ref = m_hitbox_size/2.0f;
+
+  bool x_in_view = (m_pos.x + hitbox_ref) > -1 && (m_pos.x - hitbox_ref) < 1, 
+       y_in_view = (m_pos.y + hitbox_ref) > -1 && (m_pos.y - hitbox_ref) < 1;
   return x_in_view && y_in_view;
 }
 
