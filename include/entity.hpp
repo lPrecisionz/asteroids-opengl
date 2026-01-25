@@ -29,6 +29,7 @@ public:
   float m_scale {1.0f};
   float m_angle;
   float m_speed {10.0f};
+  float m_radius;
   bool m_should_destroy {false};
   std::string m_mesh_id;
 
@@ -36,7 +37,6 @@ public:
   Entity(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
     : m_pos(pos), m_vel(vel), m_mesh_id(mesh_id), m_scale(scale), m_angle(angle){}
   void move(const float &dt) { m_pos += m_vel ; }
-  void is_in_view();
   virtual void update(const float &dt) {}
 };
 

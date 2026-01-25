@@ -16,6 +16,8 @@ const float projectile_model [] = {
   -0.1f,  0.1f, 0.0f // top left
 };
 
+const float PROJ_HEIGHT = 0.2;
+
 const std::vector<vertex_attr_data> proj_vert_attr {
   vertex_attr_data(GL_FLOAT, 0, 3, 0) // type -> location -> attr count -> offset
 };
