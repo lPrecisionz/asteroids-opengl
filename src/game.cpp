@@ -143,7 +143,7 @@ void Game::cleanup_entities(){
 void Game::asteroid_player_coll(){
   for(auto&e : m_entities){
     float curr_distance = sqrt(pow(m_player->m_pos.x - e->m_pos.x,2) + pow(m_player->m_pos.y - e->m_pos.y,2));
-    if(curr_distance - m_player->m_radius)
+    if(curr_distance < m_player->m_radius)
       std::cout << "Collision!" << std::endl;
   }
 }
