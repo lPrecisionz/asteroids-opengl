@@ -54,6 +54,7 @@ private:
   void       spawn_health_bar();
   void update_entities(const float &dt);
   void cleanup_entities();
+  std::vector<Entity*> cache_entities(const EntityID &type);
   void asteroid_player_coll();
   void asteroid_proj_coll();
 };

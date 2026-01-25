@@ -31,6 +31,7 @@ void Game::run(){
     handle_input(delta_time);
     update_entities(delta_time);
     asteroid_player_coll();
+    asteroid_proj_coll();
     cleanup_entities();
 
     m_window_manager.swap_buffer();
@@ -141,7 +142,18 @@ void Game::cleanup_entities(){
   }
 }
 
+std::vector<Entity*> Game::cache_entities(const EntityID &type){
+  std::vector<Entity*> cached_entities; 
+  for(auto& e : m_entities){
+    if(e->m_id == type)
+      cached_entities.push_back(e.get());
+  }
+
+  return cached_entities;
+}
+
 void Game::asteroid_player_coll(){
+  std::vector<Entity*> asteroids;
   for(auto&e : m_entities){
     float curr_distance = sqrt(pow(m_player->m_pos.x - e->m_pos.x,2) + pow(m_player->m_pos.y - e->m_pos.y,2));
     if(curr_distance < m_player->m_radius)
