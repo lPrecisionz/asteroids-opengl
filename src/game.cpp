@@ -110,4 +110,11 @@ void Game::update_entities(const float &dt){
   }
 }
 
+void Game::cleanup_entities(){
+  for(size_t i = 0; i < m_entities.size(); ++i){
+    if(m_entities.at(i)->m_should_destroy)
+      m_entities.erase(m_entities.begin() + i);
+  }
+}
+
 } // namespace Asteroids

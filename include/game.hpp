@@ -49,6 +49,7 @@ private:
   Projectile spawn_proj();
   void spawn_health_bar();
   void update_entities(const float &dt);
+  void cleanup_entities();
 };
 
 } // namespace Asteroids

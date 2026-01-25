@@ -29,6 +29,7 @@ public:
   float m_scale {1.0f};
   float m_angle;
   float m_speed {10.0f};
+  bool m_should_destroy {false};
   std::string m_mesh_id;
 
 public:
