@@ -15,10 +15,10 @@ struct point {
     y *= factor; 
     return *this;
   }
-  point& operator-(const point &other){
-    x -= other.x; 
-    y -= other.y;
-    return *this;
+  point operator-(const point &other){
+    float new_x = this->x - other.x; 
+    float new_y = this->y - other.y;
+    return point(new_x, new_y);
   }
 };
 

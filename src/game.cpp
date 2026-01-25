@@ -87,7 +87,7 @@ void Game::spawn_health_bar(){
               bar_xstart     {-0.95}, 
               bar_ystart     { 0.9 }, 
               bar_angle      {0.0f}, 
-              bar_scale      {0.8f};
+              bar_scale      {0.5f};
 
   for(int i = 0; i < health_count; ++i){
     float curr_x = bar_xstart + (i * health_padding);
@@ -106,7 +106,7 @@ void Game::spawn_health_bar(){
 
 void Game::update_entities(const float &dt){
   for(auto &e : m_entities){
-    e->move(dt);
+    e->update(dt);
   }
 }
 
