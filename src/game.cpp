@@ -148,13 +148,12 @@ std::vector<Entity*> Game::cache_entities(const EntityID &type){
     if(e->m_id == type)
       cached_entities.push_back(e.get());
   }
-
   return cached_entities;
 }
 
 void Game::asteroid_player_coll(){
-  std::vector<Entity*> asteroids;
-  for(auto&e : m_entities){
+  std::vector<Entity*> asteroids = cache_entities(EntityID::ENEMY);
+  for(auto&e : asteroids){
     float curr_distance = sqrt(pow(m_player->m_pos.x - e->m_pos.x,2) + pow(m_player->m_pos.y - e->m_pos.y,2));
     if(curr_distance < m_player->m_radius)
       std::cout << "Collision!" << std::endl;
@@ -162,21 +161,8 @@ void Game::asteroid_player_coll(){
 }
 
 void Game::asteroid_proj_coll(){
-  std::vector<Entity*> asteroids;  
-  std::vector<Entity*> projectiles;
-
-  for(auto &e : m_entities){
-    switch(e->m_id){
-      case EntityID::ENEMY: 
-        asteroids.push_back(e.get());
-        break;
-      case EntityID::PROJECTILE: 
-        projectiles.push_back(e.get());
-        break;
-      default:
-        continue;
-    }
-  }
+  std::vector<Entity*> asteroids = cache_entities(EntityID::ENEMY);  
+  std::vector<Entity*> projectiles = cache_entities(EntityID::PROJECTILE);
 
   for(auto &ast : asteroids){
     for(auto &proj: projectiles){
