@@ -22,7 +22,7 @@ public:
   float random_ndc()            { return m_coord_dist(m_rng); }
   float random_angle()          { return m_angle_dist(m_rng); }
   float random_scale()          { return m_scale_dist(m_rng); }
-  float random_universe_coord() { return m_multi_dist(m_rng); } // returns coordinate outside NDC space for enemies spawn
+  float random_outside_coord()  { return m_multi_dist(m_rng); } // returns coordinate outside NDC space for enemies spawn
 };
 
 } // namespace Asteroids
