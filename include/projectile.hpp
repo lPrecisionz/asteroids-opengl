@@ -12,6 +12,7 @@ public:
 public:
   Projectile(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
     : Entity(pos, vel, mesh_id, scale, angle), m_start_pos(pos){
+    m_id = EntityID::PROJECTILE;
     m_radius = PROJ_HEIGHT * m_scale;
   }
   void update (const float &dt) override;

@@ -3,6 +3,7 @@
 #include "../models/projectile_model.hpp"
 #include "../models/asteroids.hpp"
 #include "../include/renderer.hpp"
+#include "entity.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -148,5 +149,31 @@ void Game::asteroid_player_coll(){
   }
 }
 
+void Game::asteroid_proj_coll(){
+  std::vector<Entity*> asteroids;  
+  std::vector<Entity*> projectiles;
+
+  for(auto &e : m_entities){
+    switch(e->m_id){
+      case EntityID::ENEMY: 
+        asteroids.push_back(e.get());
+        break;
+      case EntityID::PROJECTILE: 
+        projectiles.push_back(e.get());
+        break;
+      default:
+        continue;
+    }
+  }
+
+  for(auto &ast : asteroids){
+    for(auto &proj: projectiles){
+      float curr_distance = sqrt(pow(ast->m_pos.x - proj->m_pos.x,2) + pow(ast->m_pos.y - proj->m_pos.y,2));
+      if(curr_distance < ast->m_radius){
+        std::cout << "bullet hit!" << std::endl;
+      } 
+    }
+  }
+}
 
 } // namespace Asteroids

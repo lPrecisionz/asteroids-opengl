@@ -55,6 +55,7 @@ private:
   void update_entities(const float &dt);
   void cleanup_entities();
   void asteroid_player_coll();
+  void asteroid_proj_coll();
 };
 
 } // namespace Asteroids

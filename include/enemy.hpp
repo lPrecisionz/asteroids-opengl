@@ -22,6 +22,7 @@ public:
   : Entity(pos, vel, mesh_id, scale, angle), 
     m_state(EnemyState::WANDERING), 
     m_hitbox_size(baseline_hitbox * scale){
+    m_id = EntityID::ENEMY;
     m_radius = m_hitbox_size/2.0f;
   }
   void update(const float &dt) override;

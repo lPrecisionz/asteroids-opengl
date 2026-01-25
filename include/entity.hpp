@@ -22,8 +22,15 @@ struct point {
   }
 };
 
+enum EntityID {
+  PLAYER, 
+  PROJECTILE, 
+  ENEMY
+};
+
 class Entity {
 public:
+  EntityID m_id;
   point m_pos;
   point m_vel;
   float m_scale {1.0f};
