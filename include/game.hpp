@@ -44,12 +44,13 @@ public:
     m_window_manager(wd.version, wd.width, wd.height, wd.name),
     m_shader(sd.vertex_path, sd.fragment_path){
     init_mesh_map();
+    set_input_callback();
   }
   void run();
 
 private:
-  void set_callback();
-  void handle_input();
+  void set_input_callback();
+  void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods);
   void init_mesh_map();
   Player     spawn_player();
   Projectile spawn_proj();

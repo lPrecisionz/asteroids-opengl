@@ -4,6 +4,7 @@
 #include "../models/asteroids.hpp"
 #include "../include/renderer.hpp"
 #include "entity.hpp"
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -27,7 +28,7 @@ void Game::run(){
     m_shader.use();
     renderer.draw_scene(m_entities, *m_player);
 
-    handle_input();
+    //handle_input();
     update_entities();
     asteroid_player_coll();
     asteroid_proj_coll();
@@ -38,11 +39,16 @@ void Game::run(){
   }
 }
 
-void Game::set_callback(){
-    glfwSetWindowUserPointer(m_window_manager.get_window(), this);
+void Game::set_input_callback(){
+  GLFWwindow *window = m_window_manager.get_window();
+  glfwSetWindowUserPointer(window, this);
+  glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+    Game *game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+    game->handle_input(window, key, scancode, action, mods);
+  });
 }
 
-void Game::handle_input(){
+void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, int mods){
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_RIGHT) == GLFW_PRESS){
     m_player->rotate(-SPIN_SPEED * m_delta_time);
   }
