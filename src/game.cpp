@@ -49,21 +49,25 @@ void Game::set_input_callback(){
 }
 
 void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, int mods){
-  if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_RIGHT) == GLFW_PRESS){
-    m_player->rotate(-SPIN_SPEED * m_delta_time);
-  }
-  if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_LEFT) == GLFW_PRESS){
-    m_player->rotate(SPIN_SPEED * m_delta_time);
-  }
-  if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_SPACE) == GLFW_PRESS){
-    m_entities.push_back(
-      std::unique_ptr<Projectile>(new Projectile(spawn_proj()))
-    );
-  }
-  if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_E) == GLFW_PRESS){
-    m_entities.push_back(
-      std::unique_ptr<Enemy>(new Enemy(spawn_enemy()))
-    );
+  switch(key){
+    case GLFW_KEY_LEFT:
+      m_player->rotate(SPIN_SPEED * m_delta_time);
+      break;
+    case GLFW_KEY_RIGHT:
+      m_player->rotate(-SPIN_SPEED * m_delta_time);
+      break;
+    case GLFW_KEY_SPACE:
+      if(action == GLFW_PRESS)
+        m_entities.push_back( 
+          std::unique_ptr<Projectile>(new Projectile(spawn_proj()))
+        );
+      break;
+    case GLFW_KEY_E:
+      if(action == GLFW_PRESS)
+        m_entities.push_back(
+          std::unique_ptr<Enemy>(new Enemy(spawn_enemy()))
+        );
+      break;
   }
 }
 
