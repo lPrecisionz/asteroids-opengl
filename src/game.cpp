@@ -154,8 +154,7 @@ std::vector<Entity*> Game::cache_entities(const EntityID &type){
 void Game::asteroid_player_coll(){
   std::vector<Entity*> asteroids = cache_entities(EntityID::ENEMY);
   for(auto&e : asteroids){
-    float curr_distance = sqrt(pow(m_player->m_pos.x - e->m_pos.x,2) + pow(m_player->m_pos.y - e->m_pos.y,2));
-    if(curr_distance < m_player->m_radius)
+    if(check_coll(m_player->m_radius, m_player->m_pos, e->m_pos))
       std::cout << "Collision!" << std::endl;
   }
 }
@@ -166,8 +165,7 @@ void Game::asteroid_proj_coll(){
 
   for(auto &ast : asteroids){
     for(auto &proj: projectiles){
-      float curr_distance = sqrt(pow(ast->m_pos.x - proj->m_pos.x,2) + pow(ast->m_pos.y - proj->m_pos.y,2));
-      if(curr_distance < ast->m_radius){
+      if(check_coll(ast->m_radius, ast->m_pos, proj->m_pos)){
         std::cout << "bullet hit!" << std::endl;
       } 
     }
