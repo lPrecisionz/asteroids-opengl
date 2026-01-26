@@ -13,16 +13,17 @@ enum PlayerState{
 class Player : public Entity{
 public:
   PlayerState m_state { IDLE };
-  Player(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
-    : Entity(pos, vel, mesh_id, scale, angle){
+  float m_spin_speed;
+  Player(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const float &spin_speed) 
+    : Entity(pos, vel, mesh_id, scale, angle), m_spin_speed(spin_speed){
       m_id     = EntityID::PLAYER;
       m_radius = SHIP_HEIGHT*scale;
   }
   void set_state(const PlayerState s){ m_state = s;}
+  void handle();
 
 private:
   void rotate(const float &angle);
-  void handle();
 };
 
 };

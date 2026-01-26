@@ -9,10 +9,10 @@ void Player::rotate(const float &angle){
 void Player::handle(){
   switch(m_state){
     case PlayerState::SPIN_RIGHT:
-      rotate(m_speed);
+      rotate(-m_speed);
       break;
     case PlayerState::SPIN_LEFT:
-      rotate(-m_speed);
+      rotate(m_speed);
       break;
     default:
       return;

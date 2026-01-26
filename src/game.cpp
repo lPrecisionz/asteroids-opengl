@@ -28,7 +28,7 @@ void Game::run(){
     m_shader.use();
     renderer.draw_scene(m_entities, *m_player);
 
-    //handle_input();
+    m_player->handle();
     update_entities();
     asteroid_player_coll();
     asteroid_proj_coll();
@@ -49,12 +49,19 @@ void Game::set_input_callback(){
 }
 
 void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, int mods){
+  //TODO : Clean up this mess
   switch(key){
     case GLFW_KEY_LEFT:
-      m_player->rotate(SPIN_SPEED * m_delta_time);
+      if(action == GLFW_PRESS)
+        m_player->set_state(PlayerState::SPIN_LEFT);
+      else
+       m_player->set_state(PlayerState::IDLE);
       break;
     case GLFW_KEY_RIGHT:
-      m_player->rotate(-SPIN_SPEED * m_delta_time);
+      if(action == GLFW_PRESS)
+        m_player->set_state(PlayerState::SPIN_RIGHT);
+      else
+        m_player->set_state(PlayerState::IDLE);      
       break;
     case GLFW_KEY_SPACE:
       if(action == GLFW_PRESS)
@@ -80,13 +87,15 @@ void Game::init_mesh_map(){
 }
 
 Player Game::spawn_player(){
+
+  const float spin_speed = 5.0f;
   point player_pos = {0, 0};
   point player_vel = {0, 0};
   float player_angle = 0.0f; 
   float player_scale = 1.0f;
   std::string player_mesh {"Ship"};
 
-  return Player(player_pos, player_vel, player_mesh, player_scale, player_angle);
+  return Player(player_pos, player_vel, player_mesh, player_scale, player_angle, spin_speed);
 }
 
 Projectile Game::spawn_proj(){
@@ -134,10 +143,10 @@ void Game::spawn_health_bar(){
     point bar_vel = {0, 0};
     std::string bar_mesh {"Ship"};
 
-    Entity health_ship = Player(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle);
+    Entity health_ship = Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle);
     health_ship.m_scale = 0.5f;
     m_entities.push_back(
-      std::unique_ptr<Entity>(new Player(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle))
+      std::unique_ptr<Entity>(new Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle))
     );
   }
 }
