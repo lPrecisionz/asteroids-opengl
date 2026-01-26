@@ -39,6 +39,10 @@ void Game::run(){
   }
 }
 
+void Game::set_callback(){
+    glfwSetWindowUserPointer(m_window_manager.get_window(), this);
+}
+
 void Game::handle_input(const float &dt){
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_RIGHT) == GLFW_PRESS){
     m_player->rotate(-SPIN_SPEED * dt);

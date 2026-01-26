@@ -31,11 +31,13 @@ constexpr float PROJ_SPEED = 0.05f;
 class Game {
 private: 
   WindowManager m_window_manager;
-  Shader m_shader;
-  Player *m_player;
-  std::map<std::string, Mesh> m_meshes;
+  Shader        m_shader;
+  Player        *m_player;
+  float         m_delta_time {0};
+  RandomEngine  m_random_engine;
+
+  std::map<std::string, Mesh>          m_meshes;
   std::vector<std::unique_ptr<Entity>> m_entities;
-  RandomEngine m_random_engine;
 
 public: 
   Game(const window_data &wd, const shader_data &sd) : 
@@ -46,6 +48,7 @@ public:
   void run();
 
 private:
+  void set_callback();
   void handle_input(const float &dt);
   void init_mesh_map();
   Player     spawn_player();
@@ -58,6 +61,7 @@ private:
   void asteroid_player_coll();
   void asteroid_proj_coll();
   bool check_coll(const float &radius_a, const point &a, const point &b) const;
+  static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 };
 
 } // namespace Asteroids
