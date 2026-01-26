@@ -174,4 +174,9 @@ void Game::asteroid_proj_coll(){
   }
 }
 
+bool Game::check_coll(const float &radius_a, const point &a, const point &b) const{
+  float distance = sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2));
+  return distance < radius_a;
+}
+
 } // namespace Asteroids

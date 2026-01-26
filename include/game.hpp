@@ -57,6 +57,7 @@ private:
   std::vector<Entity*> cache_entities(const EntityID &type);
   void asteroid_player_coll();
   void asteroid_proj_coll();
+  bool check_coll(const float &radius_a, const point &a, const point &b) const;
 };
 
 } // namespace Asteroids
