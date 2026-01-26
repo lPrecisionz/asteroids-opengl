@@ -18,6 +18,9 @@ public:
       m_id     = EntityID::PLAYER;
       m_radius = SHIP_HEIGHT*scale;
   }
+  void set_state(const PlayerState s){ m_state = s;}
+
+private:
   void rotate(const float &angle);
   void handle();
 };
