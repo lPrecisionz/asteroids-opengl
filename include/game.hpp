@@ -49,13 +49,13 @@ public:
 
 private:
   void set_callback();
-  void handle_input(const float &dt);
+  void handle_input();
   void init_mesh_map();
   Player     spawn_player();
   Projectile spawn_proj();
   Enemy      spawn_enemy();
   void       spawn_health_bar();
-  void update_entities(const float &dt);
+  void update_entities();
   void cleanup_entities();
   std::vector<Entity*> cache_entities(const EntityID &type);
   void asteroid_player_coll();

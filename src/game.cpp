@@ -17,19 +17,18 @@ void Game::run(){
   m_player = &player;
   spawn_health_bar();
 
-  float prev_frame {0}, 
-        delta_time {0};
+  float prev_frame {0};
   while(!m_window_manager.window_should_close()){
     float curr_frame = glfwGetTime();
-    delta_time = curr_frame - prev_frame;
+    m_delta_time = curr_frame - prev_frame;
     prev_frame = curr_frame;
 
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
     renderer.draw_scene(m_entities, *m_player);
 
-    handle_input(delta_time);
-    update_entities(delta_time);
+    handle_input();
+    update_entities();
     asteroid_player_coll();
     asteroid_proj_coll();
     cleanup_entities();
@@ -43,12 +42,12 @@ void Game::set_callback(){
     glfwSetWindowUserPointer(m_window_manager.get_window(), this);
 }
 
-void Game::handle_input(const float &dt){
+void Game::handle_input(){
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_RIGHT) == GLFW_PRESS){
-    m_player->rotate(-SPIN_SPEED * dt);
+    m_player->rotate(-SPIN_SPEED * m_delta_time);
   }
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_LEFT) == GLFW_PRESS){
-    m_player->rotate(SPIN_SPEED * dt);
+    m_player->rotate(SPIN_SPEED * m_delta_time);
   }
   if(glfwGetKey(m_window_manager.get_window(), GLFW_KEY_SPACE) == GLFW_PRESS){
     m_entities.push_back(
@@ -133,9 +132,9 @@ void Game::spawn_health_bar(){
   }
 }
 
-void Game::update_entities(const float &dt){
+void Game::update_entities(){
   for(auto &e : m_entities){
-    e->update(dt);
+    e->update(m_delta_time);
   }
 }
 
