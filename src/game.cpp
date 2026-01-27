@@ -54,13 +54,13 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
     case GLFW_KEY_LEFT:
       if(action == GLFW_PRESS)
         m_player->set_state(PlayerState::SPIN_LEFT);
-      else
+      else if (action == GLFW_RELEASE && m_player->m_state == PlayerState::SPIN_LEFT)
        m_player->set_state(PlayerState::IDLE);
       break;
     case GLFW_KEY_RIGHT:
       if(action == GLFW_PRESS)
         m_player->set_state(PlayerState::SPIN_RIGHT);
-      else
+      else if (action == GLFW_RELEASE && m_player->m_state == PlayerState::SPIN_RIGHT)
         m_player->set_state(PlayerState::IDLE);      
       break;
     case GLFW_KEY_SPACE:
@@ -88,7 +88,7 @@ void Game::init_mesh_map(){
 
 Player Game::spawn_player(){
 
-  const float spin_speed = 5.0f;
+  const float spin_speed = 1.0f;
   point player_pos = {0, 0};
   point player_vel = {0, 0};
   float player_angle = 0.0f; 
