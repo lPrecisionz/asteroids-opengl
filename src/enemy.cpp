@@ -13,11 +13,10 @@ void Enemy::update(const float &dt){
       handle_in_view();
       break;
     case EnemyState::DEAD: 
-      m_should_destroy = true;
+      destroy();
       break;
     case EnemyState::OUT_OF_BOUNDS:
-      std::cout << "Destroyed!" << std::endl;
-      m_should_destroy = true;
+      destroy();
       break;
   }
 }

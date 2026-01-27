@@ -30,7 +30,7 @@ void Game::run(){
 
     m_player->handle();
     update_entities();
-    asteroid_player_coll();
+    //asteroid_player_coll();
     asteroid_proj_coll();
     cleanup_entities();
 
@@ -188,9 +188,11 @@ void Game::asteroid_proj_coll(){
   for(Entity* &ast : asteroids){
     for(Entity* &proj: projectiles){
       if(check_coll(ast->m_radius, ast->m_pos, proj->m_pos)){
-        Enemy* en = static_cast<Enemy*>(ast);
-        en->die();
-        std::cout << "bullet hit!" << std::endl;
+        Enemy* enemy = static_cast<Enemy*>(ast);
+        Projectile* proj = static_cast<Projectile*>(proj);
+        enemy->die();
+        proj->destroy();
+        //std::cout << "bullet hit!" << std::endl;
       } 
     }
   }
