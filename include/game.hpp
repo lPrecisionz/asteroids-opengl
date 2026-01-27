@@ -25,7 +25,6 @@ struct shader_data {
 };
 
 constexpr float PLAYER_OFFSET_ANGLE = 90.0f;
-constexpr float SPIN_SPEED = 250.0f;
 constexpr float PROJ_SPEED = 0.05f;
 
 class Game {
@@ -55,6 +54,7 @@ private:
   Player     spawn_player();
   Projectile spawn_proj();
   Enemy      spawn_enemy();
+  Enemy      spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle);
   void       spawn_health_bar();
   void update_entities();
   void cleanup_entities();

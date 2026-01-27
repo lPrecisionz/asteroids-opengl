@@ -128,6 +128,10 @@ Enemy Game::spawn_enemy(){
   return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle);
 }
 
+Enemy Game::spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle){
+  return Enemy(pos, vel, mesh_id, scale, angle);
+}
+
 void Game::spawn_health_bar(){
   const unsigned int health_count { 3 };
   const float health_padding {0.075f}, 
@@ -182,17 +186,15 @@ void Game::asteroid_player_coll(){
 }
 
 void Game::asteroid_proj_coll(){
-  std::vector<Entity*> asteroids = cache_entities(EntityID::ENEMY);  
+  std::vector<Entity*> asteroids   = cache_entities(EntityID::ENEMY);  
   std::vector<Entity*> projectiles = cache_entities(EntityID::PROJECTILE);
 
   for(Entity* &ast : asteroids){
     for(Entity* &proj: projectiles){
       if(check_coll(ast->m_radius, ast->m_pos, proj->m_pos)){
         Enemy* enemy = static_cast<Enemy*>(ast);
-        Projectile* proj = static_cast<Projectile*>(proj);
         enemy->die();
         proj->destroy();
-        //std::cout << "bullet hit!" << std::endl;
       } 
     }
   }

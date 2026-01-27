@@ -15,15 +15,16 @@ private:
   constexpr static float uni_lower_bound =-2; 
   constexpr static float uni_upper_bound = 2;
   constexpr static float baseline_hitbox = 1;
-  EnemyState m_state;
+  EnemyState  m_state;
   const float m_hitbox_size;
+
 public: 
   Enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
   : Entity(pos, vel, mesh_id, scale, angle), 
     m_state(EnemyState::WANDERING), 
     m_hitbox_size(baseline_hitbox * scale){
     m_id = EntityID::ENEMY;
-    m_radius = m_hitbox_size/2.0f;
+    m_radius = m_hitbox_size/2.0f; 
   }
   void update(const float &dt) override;
   bool die();
