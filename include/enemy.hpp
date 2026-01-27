@@ -26,6 +26,7 @@ public:
     m_radius = m_hitbox_size/2.0f;
   }
   void update(const float &dt) override;
+  bool die();
 
 private:
   void handle_wandering();

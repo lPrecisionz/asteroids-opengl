@@ -88,7 +88,7 @@ void Game::init_mesh_map(){
 
 Player Game::spawn_player(){
 
-  const float spin_speed = 1.0f;
+  const float spin_speed = 0.5f;
   point player_pos = {0, 0};
   point player_vel = {0, 0};
   float player_angle = 0.0f; 
@@ -197,6 +197,11 @@ void Game::asteroid_proj_coll(){
 bool Game::check_coll(const float &radius_a, const point &a, const point &b) const{
   float distance = sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2));
   return distance < radius_a;
+}
+
+bool Enemy::die(){
+  m_state = EnemyState::DEAD;
+  return m_scale > 0.5f;
 }
 
 } // namespace Asteroids
