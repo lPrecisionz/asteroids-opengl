@@ -185,9 +185,11 @@ void Game::asteroid_proj_coll(){
   std::vector<Entity*> asteroids = cache_entities(EntityID::ENEMY);  
   std::vector<Entity*> projectiles = cache_entities(EntityID::PROJECTILE);
 
-  for(auto &ast : asteroids){
-    for(auto &proj: projectiles){
+  for(Entity* &ast : asteroids){
+    for(Entity* &proj: projectiles){
       if(check_coll(ast->m_radius, ast->m_pos, proj->m_pos)){
+        Enemy* en = static_cast<Enemy*>(ast);
+        en->die();
         std::cout << "bullet hit!" << std::endl;
       } 
     }
@@ -197,11 +199,6 @@ void Game::asteroid_proj_coll(){
 bool Game::check_coll(const float &radius_a, const point &a, const point &b) const{
   float distance = sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2));
   return distance < radius_a;
-}
-
-bool Enemy::die(){
-  m_state = EnemyState::DEAD;
-  return m_scale > 0.5f;
 }
 
 } // namespace Asteroids

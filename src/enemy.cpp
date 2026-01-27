@@ -42,4 +42,9 @@ bool Enemy::is_in_view(){
   return x_in_view && y_in_view;
 }
 
+bool Enemy::die(){
+  m_state = EnemyState::DEAD;
+  return m_scale > 0.5f;
+}
+
 } // namespace Asteroids
