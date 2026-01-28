@@ -28,7 +28,7 @@ void Game::run(){
     m_shader.use();
     renderer.draw_scene(m_entities, *m_player);
 
-    m_player->handle();
+    m_player->handle(m_delta_time);
     update_entities();
     //asteroid_player_coll();
     asteroid_proj_coll();
@@ -87,7 +87,7 @@ void Game::init_mesh_map(){
 }
 
 Player Game::spawn_player(){
-  const float spin_speed = 0.5f;
+  const float spin_speed = 230.0f;
   point player_pos = {0, 0};
   point player_vel = {0, 0};
   float player_angle = 0.0f; 
@@ -136,15 +136,15 @@ void Game::split_enemy(const point &pos, const float &scale){
   std::string mesh_id = "Asteroid01";
   for(int i = 0; i < split_count; ++i){
     float angle = m_random_engine.random_angle();
-    float scale = scale / 2.0f;
+    float curr_scale = scale / 2.0f;
 
     const float vel_x = cos(glm::radians(angle)), 
-    vel_y = sin(glm::radians(angle)), 
-    speed = 0.01;
+                vel_y = sin(glm::radians(angle)), 
+                speed = 0.01;
     point enemy_vel = {vel_x * speed, vel_y * speed};
-    point enemy_pos = {m_random_engine.random_outside_coord(), m_random_engine.random_outside_coord()}; 
+
     m_entities.push_back(
-      std::unique_ptr<Enemy>(new Enemy(spawn_enemy(pos, enemy_vel, mesh_id, scale, angle)))
+      std::unique_ptr<Enemy>(new Enemy(spawn_enemy(pos, enemy_vel, mesh_id, curr_scale, angle)))
     );
   }
 }
@@ -212,7 +212,7 @@ void Game::asteroid_proj_coll(){
         Enemy* enemy = static_cast<Enemy*>(ast);
         bool should_split = enemy->die();
         if(should_split){
-          split_enemy(*enemy);
+          split_enemy(enemy->m_pos, enemy->m_scale);
           std::cout << "Splitting!" << std::endl;
         }
         proj->destroy();

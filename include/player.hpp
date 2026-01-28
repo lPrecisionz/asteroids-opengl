@@ -20,10 +20,10 @@ public:
       m_radius = SHIP_HEIGHT*scale;
   }
   void set_state(const PlayerState s){ m_state = s;}
-  void handle();
+  void handle(const float &delta_time);
 
 private:
-  void rotate(const float &angle);
+  void rotate(const float &angle, const float &delta_time);
 };
 
 };
