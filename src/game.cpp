@@ -131,11 +131,12 @@ Enemy Game::spawn_enemy(const point &pos, const point &vel, const std::string &m
   return Enemy(pos, vel, mesh_id, scale, angle);
 }
 
-void Game::split_enemy(Enemy& enemy){ 
+void Game::split_enemy(const point &pos, const float &scale){ 
   int split_count = 2;
+  std::string mesh_id = "Asteroid01";
   for(int i = 0; i < split_count; ++i){
     float angle = m_random_engine.random_angle();
-    float scale = enemy.m_scale / 2.0f;
+    float scale = scale / 2.0f;
 
     const float vel_x = cos(glm::radians(angle)), 
     vel_y = sin(glm::radians(angle)), 
@@ -143,7 +144,7 @@ void Game::split_enemy(Enemy& enemy){
     point enemy_vel = {vel_x * speed, vel_y * speed};
     point enemy_pos = {m_random_engine.random_outside_coord(), m_random_engine.random_outside_coord()}; 
     m_entities.push_back(
-      std::unique_ptr<Enemy>(new Enemy(spawn_enemy(enemy.m_pos, enemy_vel, enemy.m_mesh_id, scale, angle)))
+      std::unique_ptr<Enemy>(new Enemy(spawn_enemy(pos, enemy_vel, mesh_id, scale, angle)))
     );
   }
 }
