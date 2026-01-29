@@ -56,6 +56,7 @@ private:
   Projectile spawn_proj();
   Enemy      spawn_enemy();
   Enemy      spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle);
+  void explode(const point &pos, const float &scale);
   void split_enemy(const point &pos, const float &scale);
   void       spawn_health_bar();
   void update_entities();

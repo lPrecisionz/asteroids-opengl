@@ -131,6 +131,25 @@ Enemy Game::spawn_enemy(const point &pos, const point &vel, const std::string &m
   return Enemy(pos, vel, mesh_id, scale, angle);
 }
 
+void Game::explode(const point &pos, const float &scale){
+  std::string particle_mesh {"Projectile"};
+  int particle_count = static_cast<int>(scale * 20);
+  float particle_scale = 0.01f, 
+        max_distance   = 0.5f;
+  for(int i = 0; i < particle_count; ++i){
+    float particle_angle = m_random_engine.random_angle();
+    const float vel_x = cos(glm::radians(particle_angle)), 
+                vel_y = sin(glm::radians(particle_angle)), 
+                speed = 0.5f;
+    point vel = {vel_x * speed, vel_y * speed};
+    m_entities.push_back(
+      std::unique_ptr<Projectile>(
+        new Projectile(pos, vel, particle_mesh, particle_scale, particle_angle, EntityID::PARTICLE, max_distance)
+      )
+    ); 
+  }
+}
+
 void Game::split_enemy(const point &pos, const float &scale){ 
   int split_count = 2;
   std::string mesh_id = "Asteroid01";
@@ -213,6 +232,7 @@ void Game::asteroid_proj_coll(){
         bool should_split = enemy->die();
         if(should_split){
           split_enemy(enemy->m_pos, enemy->m_scale);
+          explode(enemy->m_pos, enemy->m_scale);
           std::cout << "Splitting!" << std::endl;
         }
         proj->destroy();
