@@ -110,7 +110,7 @@ Projectile Game::spawn_proj(){
   point proj_vel = {vel_x * speed, vel_y * speed};
   point proj_pos = point(vel_x * ship_height, vel_y * ship_height);
 
-  return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle, EntityID::PROJECTILE);
+  return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle, EntityID::PROJECTILE, PROJ_MAX_DIST);
 }
 
 Enemy Game::spawn_enemy(){
