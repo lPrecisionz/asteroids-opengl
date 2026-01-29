@@ -110,7 +110,7 @@ Projectile Game::spawn_proj(){
   point proj_vel = {vel_x * speed, vel_y * speed};
   point proj_pos = point(vel_x * ship_height, vel_y * ship_height);
 
-  return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle);
+  return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle, EntityID::PROJECTILE);
 }
 
 Enemy Game::spawn_enemy(){
@@ -120,7 +120,7 @@ Enemy Game::spawn_enemy(){
 
   const float vel_x = cos(glm::radians(enemy_angle)), 
               vel_y = sin(glm::radians(enemy_angle)), 
-              speed = 0.01;
+              speed = 0.5f;
   point enemy_vel = {vel_x * speed, vel_y * speed};
   point enemy_pos = {m_random_engine.random_outside_coord(), m_random_engine.random_outside_coord()}; 
 
@@ -140,7 +140,7 @@ void Game::split_enemy(const point &pos, const float &scale){
 
     const float vel_x = cos(glm::radians(angle)), 
                 vel_y = sin(glm::radians(angle)), 
-                speed = 0.01;
+                speed = 0.5f;
     point enemy_vel = {vel_x * speed, vel_y * speed};
 
     m_entities.push_back(

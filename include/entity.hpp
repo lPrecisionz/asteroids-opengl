@@ -10,10 +10,10 @@ struct point {
     y += other.y; 
     return *this;
   }
-  point& operator*(const float &factor){
-    x *= factor; 
-    y *= factor; 
-    return *this;
+  point operator*(const float &factor){
+    float new_x = x * factor;
+    float new_y = y * factor;
+    return point{new_x, new_y};
   }
   point operator-(const point &other){
     float new_x = this->x - other.x; 
@@ -25,6 +25,7 @@ struct point {
 enum EntityID {
   PLAYER, 
   PROJECTILE, 
+  PARTICLE, 
   ENEMY
 };
 
@@ -45,7 +46,7 @@ public:
     : m_pos(pos), m_vel(vel), m_mesh_id(mesh_id), m_scale(scale), m_angle(angle){}
   virtual void update(const float &dt) {}
   void destroy() { m_should_destroy = true; }
-  void move(const float &dt) { m_pos += m_vel ; }
+  void move(const float &dt) { m_pos += m_vel * dt; }
 };
 
 } //namespace Asteroids

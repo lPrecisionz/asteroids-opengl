@@ -10,10 +10,10 @@ public:
   constexpr static float m_max_distance {0.8f};
 
 public:
-  Projectile(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
+  Projectile(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const EntityID &id) 
     : Entity(pos, vel, mesh_id, scale, angle), m_start_pos(pos){
-    m_id = EntityID::PROJECTILE;
-    m_radius = PROJ_HEIGHT * m_scale;
+    m_id = id;
+    m_radius = PROJ_MESH_HEIGHT * m_scale;
   }
   void update (const float &dt) override;
 };

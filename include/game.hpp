@@ -25,7 +25,7 @@ struct shader_data {
 };
 
 constexpr float PLAYER_OFFSET_ANGLE = 90.0f;
-constexpr float PROJ_SPEED = 0.05f;
+constexpr float PROJ_SPEED = 1.5f;
 
 class Game {
 private: 
