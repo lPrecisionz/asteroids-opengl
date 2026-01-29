@@ -43,7 +43,7 @@ bool Enemy::is_in_view(){
 
 bool Enemy::die(){
   m_state = EnemyState::DEAD;
-  return m_scale > 0.1f;
+  return m_scale > 0.1f && m_split_count < 1;
 }
 
 } // namespace Asteroids

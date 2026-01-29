@@ -116,6 +116,7 @@ Projectile Game::spawn_proj(){
 Enemy Game::spawn_enemy(){
   float enemy_angle = m_random_engine.random_angle();
   float enemy_scale = m_random_engine.random_scale();
+  unsigned int split_count = 0;
   std::string enemy_mesh {"Asteroid01"};
 
   const float vel_x = cos(glm::radians(enemy_angle)), 
@@ -124,11 +125,11 @@ Enemy Game::spawn_enemy(){
   point enemy_vel = {vel_x * speed, vel_y * speed};
   point enemy_pos = {m_random_engine.random_outside_coord(), m_random_engine.random_outside_coord()}; 
 
-  return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle);
+  return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle, split_count);
 }
 
-Enemy Game::spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle){
-  return Enemy(pos, vel, mesh_id, scale, angle);
+Enemy Game::spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count){
+  return Enemy(pos, vel, mesh_id, scale, angle, split_count);
 }
 
 void Game::explode(const point &pos, const float &scale){
@@ -150,10 +151,10 @@ void Game::explode(const point &pos, const float &scale){
   }
 }
 
-void Game::split_enemy(const point &pos, const float &scale){ 
-  int split_count = 2;
+void Game::split_enemy(const point &pos, const float &scale, const unsigned int &split_count){ 
+  int children = 2;
   std::string mesh_id = "Asteroid01";
-  for(int i = 0; i < split_count; ++i){
+  for(int i = 0; i < children; ++i){
     float angle = m_random_engine.random_angle();
     float curr_scale = scale / 2.0f;
 
@@ -163,7 +164,7 @@ void Game::split_enemy(const point &pos, const float &scale){
     point enemy_vel = {vel_x * speed, vel_y * speed};
 
     m_entities.push_back(
-      std::unique_ptr<Enemy>(new Enemy(spawn_enemy(pos, enemy_vel, mesh_id, curr_scale, angle)))
+      std::unique_ptr<Enemy>(new Enemy(spawn_enemy(pos, enemy_vel, mesh_id, curr_scale, angle, split_count)))
     );
   }
 }
@@ -231,7 +232,7 @@ void Game::asteroid_proj_coll(){
         Enemy* enemy = static_cast<Enemy*>(ast);
         bool should_split = enemy->die();
         if(should_split){
-          split_enemy(enemy->m_pos, enemy->m_scale);
+          split_enemy(enemy->m_pos, enemy->m_scale, enemy->m_split_count+1);
           explode(enemy->m_pos, enemy->m_scale);
           std::cout << "Splitting!" << std::endl;
         }
