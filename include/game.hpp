@@ -29,7 +29,12 @@ constexpr float PROJ_SPEED = 1.5f;
 constexpr float PROJ_MAX_DIST = 1.0f;
 
 struct game_config {
-  double  spawn_rate; 
+  const float  base_spawn_rate  {1.0f};
+  const float  base_speed_rate  {1.0f};
+  const float  diff_incr_rate   {0.01f};
+  unsigned int diff_incr_interv {100};
+  unsigned int curr_step        {1};
+  float        curr_diff        {1.0f};
 };
 
 class Game {
@@ -40,6 +45,7 @@ private:
   unsigned int  m_score {0};
   float         m_delta_time {0};
   RandomEngine  m_random_engine;
+  game_config   m_game_conf;
 
   std::map<std::string, Mesh>          m_meshes;
   std::vector<std::unique_ptr<Entity>> m_entities;
@@ -65,6 +71,7 @@ private:
   void split_enemy(const point &pos, const float &scale, const unsigned int &split_count);
   void spawn_health_bar();
   void compute_score(const Enemy &enemy); 
+  unsigned int enemy_value(const Enemy& enemy);
   void update_entities();
   void cleanup_entities();
   std::vector<Entity*> cache_entities(const EntityID &type);
