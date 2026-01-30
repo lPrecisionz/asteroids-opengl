@@ -28,11 +28,16 @@ constexpr float PLAYER_OFFSET_ANGLE = 90.0f;
 constexpr float PROJ_SPEED = 1.5f;
 constexpr float PROJ_MAX_DIST = 1.0f;
 
+struct game_config {
+  double  spawn_rate; 
+};
+
 class Game {
 private: 
   WindowManager m_window_manager;
   Shader        m_shader;
   Player        *m_player;
+  unsigned int  m_score {0};
   float         m_delta_time {0};
   RandomEngine  m_random_engine;
 
@@ -58,14 +63,14 @@ private:
   Enemy      create_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count);
   void explode(const point &pos, const float &scale);
   void split_enemy(const point &pos, const float &scale, const unsigned int &split_count);
-  void       spawn_health_bar();
+  void spawn_health_bar();
+  void compute_score(const Enemy &enemy); 
   void update_entities();
   void cleanup_entities();
   std::vector<Entity*> cache_entities(const EntityID &type);
   void asteroid_player_coll();
   void asteroid_proj_coll();
   bool check_coll(const float &radius_a, const point &a, const point &b) const;
-  static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 };
 
 } // namespace Asteroids

@@ -201,6 +201,12 @@ void Game::spawn_health_bar(){
   }
 }
 
+void Game::compute_score(const Enemy &enemy){
+  unsigned int score = static_cast<int>(enemy.m_scale * 50);
+  m_score += score;
+  std::cout << m_score << std::endl;
+}
+
 void Game::update_entities(){
   for(auto &e : m_entities){
     e->update(m_delta_time);
@@ -240,10 +246,10 @@ void Game::asteroid_proj_coll(){
       if(check_coll(ast->m_radius, ast->m_pos, proj->m_pos)){
         Enemy* enemy = static_cast<Enemy*>(ast);
         bool should_split = enemy->die();
+        compute_score(*enemy);
         if(should_split){
           split_enemy(enemy->m_pos, enemy->m_scale, enemy->m_split_count+1);
           explode(enemy->m_pos, enemy->m_scale);
-          std::cout << "Splitting!" << std::endl;
         }
         proj->destroy();
       } 
