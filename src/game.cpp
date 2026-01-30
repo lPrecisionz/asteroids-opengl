@@ -18,11 +18,20 @@ void Game::run(){
   m_player = &player;
   spawn_health_bar();
 
-  float prev_frame {0};
+  float prev_frame {0}, 
+        time_buff  {0};
   while(!m_window_manager.window_should_close()){
     float curr_frame = glfwGetTime();
     m_delta_time = curr_frame - prev_frame;
     prev_frame = curr_frame;
+    time_buff += m_delta_time;
+
+    if(time_buff > 1.0f){
+      time_buff = 0;
+      m_entities.push_back(
+          std::unique_ptr<Enemy>(new Enemy(create_enemy()))
+      );
+    }
 
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
@@ -72,7 +81,7 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
     case GLFW_KEY_E:
       if(action == GLFW_PRESS)
         m_entities.push_back(
-          std::unique_ptr<Enemy>(new Enemy(spawn_enemy()))
+          std::unique_ptr<Enemy>(new Enemy(create_enemy()))
         );
       break;
   }
@@ -113,7 +122,7 @@ Projectile Game::spawn_proj(){
   return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle, EntityID::PROJECTILE, PROJ_MAX_DIST);
 }
 
-Enemy Game::spawn_enemy(){
+Enemy Game::create_enemy(){
   float enemy_angle = m_random_engine.random_angle();
   float enemy_scale = m_random_engine.random_scale();
   unsigned int split_count = 0;
@@ -128,7 +137,7 @@ Enemy Game::spawn_enemy(){
   return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle, split_count);
 }
 
-Enemy Game::spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count){
+Enemy Game::create_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count){
   return Enemy(pos, vel, mesh_id, scale, angle, split_count);
 }
 
@@ -164,7 +173,7 @@ void Game::split_enemy(const point &pos, const float &scale, const unsigned int 
     point enemy_vel = {vel_x * speed, vel_y * speed};
 
     m_entities.push_back(
-      std::unique_ptr<Enemy>(new Enemy(spawn_enemy(pos, enemy_vel, mesh_id, curr_scale, angle, split_count)))
+      std::unique_ptr<Enemy>(new Enemy(create_enemy(pos, enemy_vel, mesh_id, curr_scale, angle, split_count)))
     );
   }
 }
