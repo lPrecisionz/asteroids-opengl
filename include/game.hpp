@@ -45,7 +45,7 @@ private:
   unsigned int  m_score {0};
   float         m_delta_time {0};
   RandomEngine  m_random_engine;
-  game_config   m_game_conf;
+  game_config   m_conf;
 
   std::map<std::string, Mesh>          m_meshes;
   std::vector<std::unique_ptr<Entity>> m_entities;
