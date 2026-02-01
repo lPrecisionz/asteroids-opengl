@@ -24,10 +24,6 @@ struct shader_data {
   const char* fragment_path;
 };
 
-constexpr float PLAYER_OFFSET_ANGLE = 90.0f;
-constexpr float PROJ_SPEED = 1.5f;
-constexpr float PROJ_MAX_DIST = 1.0f;
-
 struct game_config {
   const float  base_spawn_rate  {1.0f};
   const float  base_speed_rate  {1.0f};
@@ -70,7 +66,7 @@ private:
   void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods);
   void init_mesh_map();
   Player     spawn_player();
-  Projectile spawn_proj();
+  Projectile create_proj();
   Enemy      create_enemy();
   Enemy      create_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count);
   void explode(const point &pos, const float &scale);

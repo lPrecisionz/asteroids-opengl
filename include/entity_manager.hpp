@@ -3,6 +3,9 @@
 #include "mesh.hpp"
 #include "entity.hpp"
 #include "player.hpp"
+#include "projectile.hpp"
+#include "enemy.hpp"
+#include "random.hpp"
 #include <map>
 #include <vector>
 #include <memory>
@@ -17,12 +20,18 @@ public:
 
 public : 
   EntityManager();
+  void spawn_enemy(Enemy (*enemy)());
+  void spawn_proj(Projectile (*proj)());
 
 private: 
-  void init_mesh_map();
-  void update_entities();
-  void cleanup_entities();
-  void spawn_player();
+  void       init_mesh_map();
+  void       update_entities(float &dt);
+  void       cleanup_entities();
+  Player     spawn_player();
+  Projectile create_proj();
+  Enemy      create_enemy(RandomEngine &rd);
+  Enemy      create_enemy(const Enemy& e);
+
   std::vector<Entity*> cache_entities(const EntityID &type);
 };
 

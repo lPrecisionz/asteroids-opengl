@@ -1,5 +1,4 @@
 #include "../include/enemy.hpp"
-#include <iostream>
 
 namespace Asteroids{
 

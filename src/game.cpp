@@ -76,7 +76,7 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
     case GLFW_KEY_SPACE:
       if(action == GLFW_PRESS)
         m_entities.push_back( 
-          std::unique_ptr<Projectile>(new Projectile(spawn_proj()))
+          std::unique_ptr<Projectile>(new Projectile(create_proj()))
         );
       break;
     case GLFW_KEY_E:
@@ -107,7 +107,7 @@ Player Game::spawn_player(){
   return Player(player_pos, player_vel, player_mesh, player_scale, player_angle, spin_speed);
 }
 
-Projectile Game::spawn_proj(){
+Projectile Game::create_proj(){
   float ship_height = (SHIP_HEIGHT * m_player->m_scale) / 2.0f;
   float proj_angle = m_player->m_angle + PLAYER_OFFSET_ANGLE; 
   float proj_scale = 0.05f;
