@@ -37,6 +37,12 @@ struct game_config {
   float        curr_diff        {1.0f};
 };
 
+enum GameState {
+  MAIN_MENU, 
+  GAMEPLAY, 
+  GAMEOVER
+};
+
 class Game {
 private: 
   WindowManager m_window_manager;
