@@ -27,7 +27,7 @@ void Game::run(){
     prev_frame = curr_frame;
     time_buff += m_delta_time;
 
-    if(time_buff > m_game_conf.base_spawn_rate / m_game_conf.curr_diff){
+    if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
       time_buff = 0;
       m_entities.push_back(
           std::unique_ptr<Enemy>(new Enemy(create_enemy()))
@@ -204,17 +204,18 @@ void Game::spawn_health_bar(){
 
 void Game::compute_score(const Enemy &enemy){
   unsigned int score = enemy_value(enemy);  
-  m_score += score;
+  bool should_increase_diff = m_score > m_conf.diff_incr_interv * m_conf.curr_step;
   
-  bool should_increase_diff = m_score > m_game_conf.diff_incr_interv / m_game_conf.curr_step;
   if(should_increase_diff){
-    ++m_game_conf.curr_step;
-    m_game_conf.curr_diff += m_game_conf.diff_incr_rate;
+    ++m_conf.curr_step;
+    m_conf.curr_diff += m_conf.diff_incr_rate;
   }
 
+  m_score += score;
+
   std::cout << m_score << std::endl 
-            << "curr_step: " << m_game_conf.curr_step << std::endl 
-            << "curr diff: " << m_game_conf.curr_diff << std::endl;
+            << "curr_step: " << m_conf.curr_step << std::endl 
+            << "curr diff: " << m_conf.curr_diff << std::endl;
 }
 
 unsigned int Game::enemy_value(const Enemy& enemy){
