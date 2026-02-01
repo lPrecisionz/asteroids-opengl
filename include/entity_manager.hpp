@@ -5,7 +5,6 @@
 #include "player.hpp"
 #include "projectile.hpp"
 #include "enemy.hpp"
-#include "random.hpp"
 #include <map>
 #include <vector>
 #include <memory>
@@ -20,17 +19,15 @@ public:
 
 public : 
   EntityManager();
-  void spawn_enemy(Enemy (*enemy)());
-  void spawn_proj(Projectile (*proj)());
+  void spawn_enemy(Enemy (*create_enemy)());
+  void spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count, Enemy (*create_enemy)(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count));
+  void spawn_proj(Projectile (*create_projectile)());
 
 private: 
   void       init_mesh_map();
   void       update_entities(float &dt);
   void       cleanup_entities();
   Player     spawn_player();
-  Projectile create_proj();
-  Enemy      create_enemy(RandomEngine &rd);
-  Enemy      create_enemy(const Enemy& e);
 
   std::vector<Entity*> cache_entities(const EntityID &type);
 };
