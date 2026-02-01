@@ -24,6 +24,7 @@ void Renderer::draw_entities(const std::vector<std::unique_ptr<Entity>> &entitie
 }
 
 void Renderer::draw_player(const Player& p){
+  if(p.is_dead()) return;
   const Mesh &player_mesh = m_mesh_ref->at(p.m_mesh_id);
   m_model = glm::mat4(1.0f);
   m_model = glm::translate(m_model, glm::vec3(p.m_pos.x, p.m_pos.y, 0.0f));
