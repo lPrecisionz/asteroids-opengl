@@ -7,6 +7,7 @@
 #include "projectile.hpp"
 #include "shader.hpp"
 #include "random.hpp"
+#include "entity_manager.hpp"
 #include <map>
 #include <memory>
 
@@ -43,7 +44,8 @@ class Game {
 private: 
   WindowManager m_window_manager;
   Shader        m_shader;
-  Player        *m_player;
+  EntityManager m_entity_manager;
+  //Player        *m_player;
   unsigned int  m_score {0};
   float         m_delta_time {0};
   RandomEngine  m_random_engine;

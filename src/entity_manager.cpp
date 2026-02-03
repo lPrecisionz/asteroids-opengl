@@ -10,13 +10,13 @@ EntityManager::EntityManager() : m_player(spawn_player()){
   init_mesh_map();
 }
 
-void EntityManager::spawn_enemy(Enemy (*create_enemy)()){
+void EntityManager::spawn_enemy(Enemy (*create_enemy)(void)){
   m_entities.push_back(
     std::unique_ptr<Enemy>(new Enemy(create_enemy()))
   );
 }
 
-// I'll get back at this, I know it looks disgusting.
+// TODO: Clean up this mess
 void EntityManager::spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count, Enemy (*create_enemy)(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count)){
   m_entities.push_back(
     std::unique_ptr<Enemy>(new Enemy(create_enemy(pos, vel, mesh_id, scale, angle, split_count)))

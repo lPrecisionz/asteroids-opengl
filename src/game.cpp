@@ -15,10 +15,9 @@ namespace Asteroids{
 void Game::run(){
   Renderer renderer {m_meshes, m_shader};
 
-  Player player = spawn_player();
-  m_player = &player;
-  spawn_health_bar();
-
+  //Player player = spawn_player();
+  //m_player = &player;
+  //spawn_health_bar();
   float prev_frame {0}, 
         time_buff  {0};
   while(!m_window_manager.window_should_close()){
@@ -27,22 +26,27 @@ void Game::run(){
     prev_frame = curr_frame;
     time_buff += m_delta_time;
 
-    if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
+    /*if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
       time_buff = 0;
       m_entities.push_back(
           std::unique_ptr<Enemy>(new Enemy(create_enemy()))
       );
+    }*/
+    if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
+      time_buff = 0;
+      m_entity_manager.spawn_enemy(create_enemy());
     }
 
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
-    renderer.draw_scene(m_entities, *m_player);
+    //renderer.draw_scene(m_entities, *m_player);
+    renderer.draw_scene(m_entity_manager.m_entities, m_entity_manager.m_player);
 
-    m_player->handle(m_delta_time);
-    update_entities();
+    //m_player->handle(m_delta_time);
+    //update_entities();
     //asteroid_player_coll();
-    asteroid_proj_coll();
-    cleanup_entities();
+    //asteroid_proj_coll();
+    //cleanup_entities();
 
     m_window_manager.swap_buffer();
     m_window_manager.poll_events();
