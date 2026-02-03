@@ -93,12 +93,8 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
         );
       }
       break;
-    case GLFW_KEY_E:
-      if(action == GLFW_PRESS)
-        m_entities.push_back(
-          create_enemy()
-        );
-      break;
+    default:
+      return;
   }
 }
 
