@@ -24,6 +24,7 @@ struct point {
 
 enum EntityID {
   PLAYER, 
+  LIFE,
   PROJECTILE, 
   PARTICLE, 
   ENEMY
@@ -42,8 +43,8 @@ public:
   std::string m_mesh_id;
 
 public:
-  Entity(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle) 
-    : m_pos(pos), m_vel(vel), m_mesh_id(mesh_id), m_scale(scale), m_angle(angle){}
+  Entity(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, EntityID id) 
+    : m_pos(pos), m_vel(vel), m_mesh_id(mesh_id), m_scale(scale), m_angle(angle), m_id(id){}
   virtual void update(const float &dt) {}
   void destroy() { m_should_destroy = true; }
   void move(const float &dt) { m_pos += m_vel * dt; }

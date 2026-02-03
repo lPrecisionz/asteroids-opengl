@@ -16,8 +16,8 @@ void Game::run(){
     m_shader
   };
 
-  float prev_frame {0};
-  float time_buff {0};
+  float prev_frame        {0};
+  float enemy_time_buffer {0};
 
   spawn_health_bar();
 
@@ -25,10 +25,10 @@ void Game::run(){
     float curr_frame = glfwGetTime();
     m_delta_time = curr_frame - prev_frame;
     prev_frame = curr_frame;
-    time_buff += m_delta_time;
+    enemy_time_buffer += m_delta_time;
 
-    if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
-      time_buff = 0;
+    if(enemy_time_buffer > m_conf.base_spawn_rate / m_conf.curr_diff){
+      enemy_time_buffer = 0;
       auto curr_enemy = create_enemy();
       m_entity_manager.spawn_entity(curr_enemy);
     }
@@ -42,8 +42,7 @@ void Game::run(){
     m_entity_manager.m_player.handle(m_delta_time);
 
     asteroid_proj_coll();
-    //asteroid_player_coll();
-    //cleanup_entities();
+    asteroid_player_coll();
 
     m_window_manager.swap_buffer();
     m_window_manager.poll_events();
@@ -186,9 +185,8 @@ void Game::spawn_health_bar(){
     point bar_vel = {0, 0};
     std::string bar_mesh {"Ship"};
 
-    Entity health_ship = Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle);
-    health_ship.m_scale = 0.5f;
-    auto health = std::unique_ptr<Entity>(new Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle));
+    auto health = std::unique_ptr<Entity>(
+      new Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle, EntityID::LIFE));
     m_entity_manager.spawn_entity(health);
   }
 }
@@ -218,8 +216,10 @@ unsigned int Game::enemy_value(const Enemy& enemy){
 void Game::asteroid_player_coll(){
   std::vector<Entity*> asteroids = m_entity_manager.cache_entities(EntityID::ENEMY);
   for(auto&e : asteroids){
-    if(check_coll(m_entity_manager.m_player.m_radius, m_entity_manager.m_player.m_pos, e->m_pos))
+    if(check_coll(m_entity_manager.m_player.m_radius, m_entity_manager.m_player.m_pos, e->m_pos)){
+      bool player_dead = m_entity_manager.kill_player();
       std::cout << "Collision!" << std::endl;
+    }
   }
 }
 

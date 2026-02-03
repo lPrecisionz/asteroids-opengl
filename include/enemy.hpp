@@ -20,7 +20,7 @@ private:
 
 public: 
   Enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count) 
-  : Entity(pos, vel, mesh_id, scale, angle), 
+  : Entity(pos, vel, mesh_id, scale, angle, EntityID::ENEMY), 
     m_state       (EnemyState::WANDERING), 
     m_split_count (split_count),
     m_hitbox_size (baseline_hitbox * scale){

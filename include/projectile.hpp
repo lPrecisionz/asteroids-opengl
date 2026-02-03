@@ -14,8 +14,7 @@ public:
 
 public:
   Projectile(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const EntityID &id, const float &max_distance) 
-    : Entity(pos, vel, mesh_id, scale, angle), m_start_pos(pos), m_max_distance(max_distance){
-    m_id = id;
+    : Entity(pos, vel, mesh_id, scale, angle, id), m_start_pos(pos), m_max_distance(max_distance){
     m_radius = PROJ_MESH_HEIGHT * m_scale;
   }
   /*Projectile(const Projectile &p)

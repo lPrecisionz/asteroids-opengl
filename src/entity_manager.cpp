@@ -2,6 +2,7 @@
 #include "../models/player_model.hpp"
 #include "../models/projectile_model.hpp"
 #include "../models/asteroids.hpp"
+#include "entity.hpp"
 #include <glm/glm.hpp>
 
 namespace Asteroids{
@@ -46,6 +47,19 @@ Player EntityManager::spawn_player(){
   std::string player_mesh {"Ship"};
 
   return Player(player_pos, player_vel, player_mesh, player_scale, player_angle, spin_speed); 
+}
+
+bool EntityManager::kill_player(){
+  if(m_player.m_life_count == 0) return true;
+
+  --m_player.m_life_count;
+  for(size_t i = 0; i < m_entities.size(); ++i){
+    if(m_entities.at(i)->m_id == EntityID::LIFE){
+      m_entities.erase(m_entities.begin() + i);
+      break;
+    }
+  }
+  return true;
 }
 
 std::vector<Entity*> EntityManager::cache_entities(const EntityID &type){
