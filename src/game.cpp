@@ -8,12 +8,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <ostream>
 
 namespace Asteroids{
 
 void Game::run(){
-  Renderer renderer {m_meshes, m_shader};
+  Renderer renderer {
+    m_entity_manager.m_meshes, m_shader
+  };
 
   //Player player = spawn_player();
   //m_player = &player;
@@ -34,7 +35,8 @@ void Game::run(){
     }*/
     if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
       time_buff = 0;
-      m_entity_manager.spawn_enemy(create_enemy());
+      auto curr_enemy = create_enemy();
+      m_entity_manager.spawn_enemy(curr_enemy);
     }
 
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
@@ -67,15 +69,15 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
   switch(key){
     case GLFW_KEY_LEFT:
       if(action == GLFW_PRESS)
-        m_player->set_state(PlayerState::SPIN_LEFT);
-      else if (action == GLFW_RELEASE && m_player->m_state == PlayerState::SPIN_LEFT)
-       m_player->set_state(PlayerState::IDLE);
+        m_entity_manager.m_player.set_state(PlayerState::SPIN_LEFT);
+      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_LEFT)
+       m_entity_manager.m_player.set_state(PlayerState::IDLE);
       break;
     case GLFW_KEY_RIGHT:
       if(action == GLFW_PRESS)
-        m_player->set_state(PlayerState::SPIN_RIGHT);
-      else if (action == GLFW_RELEASE && m_player->m_state == PlayerState::SPIN_RIGHT)
-        m_player->set_state(PlayerState::IDLE);      
+        m_entity_manager.m_player.set_state(PlayerState::SPIN_RIGHT);
+      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_RIGHT)
+        m_entity_manager.m_player.set_state(PlayerState::IDLE);      
       break;
     case GLFW_KEY_SPACE:
       if(action == GLFW_PRESS)
@@ -86,7 +88,7 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
     case GLFW_KEY_E:
       if(action == GLFW_PRESS)
         m_entities.push_back(
-          std::unique_ptr<Enemy>(new Enemy(create_enemy()))
+          create_enemy()
         );
       break;
   }
@@ -112,8 +114,8 @@ Player Game::spawn_player(){
 }
 
 Projectile Game::create_proj(){
-  float ship_height = (SHIP_HEIGHT * m_player->m_scale) / 2.0f;
-  float proj_angle = m_player->m_angle + PLAYER_OFFSET_ANGLE; 
+  float ship_height = (SHIP_HEIGHT * m_entity_manager.m_player.m_scale) / 2.0f;
+  float proj_angle = m_entity_manager.m_player.m_angle + PLAYER_OFFSET_ANGLE; 
   float proj_scale = 0.05f;
   std::string proj_mesh {"Projectile"};
 
@@ -127,7 +129,7 @@ Projectile Game::create_proj(){
   return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle, EntityID::PROJECTILE, PROJ_MAX_DIST);
 }
 
-Enemy Game::create_enemy(){
+std::unique_ptr<Entity> Game::create_enemy(){
   float enemy_angle = m_random_engine.random_angle();
   float enemy_scale = m_random_engine.random_scale();
   unsigned int split_count = 0;
@@ -139,7 +141,9 @@ Enemy Game::create_enemy(){
   point enemy_vel = {vel_x * speed, vel_y * speed};
   point enemy_pos = {m_random_engine.random_outside_coord(), m_random_engine.random_outside_coord()}; 
 
-  return Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle, split_count);
+  return std::unique_ptr<Enemy>(
+    new Enemy(enemy_pos, enemy_vel, enemy_mesh, enemy_scale, enemy_angle, split_count)
+  );
 }
 
 Enemy Game::create_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count){
@@ -253,7 +257,7 @@ std::vector<Entity*> Game::cache_entities(const EntityID &type){
 void Game::asteroid_player_coll(){
   std::vector<Entity*> asteroids = cache_entities(EntityID::ENEMY);
   for(auto&e : asteroids){
-    if(check_coll(m_player->m_radius, m_player->m_pos, e->m_pos))
+    if(check_coll(m_entity_manager.m_player.m_radius, m_entity_manager.m_player.m_pos, e->m_pos))
       std::cout << "Collision!" << std::endl;
   }
 }

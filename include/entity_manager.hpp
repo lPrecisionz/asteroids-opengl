@@ -19,7 +19,7 @@ public:
 
 public : 
   EntityManager();
-  void spawn_enemy(Enemy (*create_enemy)(void));
+  void spawn_enemy(std::unique_ptr<Entity> &enemy);
   void spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count, Enemy (*create_enemy)(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count));
   void spawn_proj(Projectile (*create_projectile)());
 

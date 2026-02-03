@@ -10,9 +10,9 @@ EntityManager::EntityManager() : m_player(spawn_player()){
   init_mesh_map();
 }
 
-void EntityManager::spawn_enemy(Enemy (*create_enemy)(void)){
+void EntityManager::spawn_enemy(std::unique_ptr<Entity>& enemy){
   m_entities.push_back(
-    std::unique_ptr<Enemy>(new Enemy(create_enemy()))
+    std::move(enemy)
   );
 }
 
