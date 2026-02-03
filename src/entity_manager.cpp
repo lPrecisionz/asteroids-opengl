@@ -10,25 +10,10 @@ EntityManager::EntityManager() : m_player(spawn_player()){
   init_mesh_map();
 }
 
-void EntityManager::spawn_enemy(std::unique_ptr<Entity>& enemy){
+void EntityManager::spawn_entity(std::unique_ptr<Entity>& entity){
   m_entities.push_back(
-    std::move(enemy)
+    std::move(entity)
   );
-}
-
-// TODO: Clean up this mess
-void EntityManager::spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count, Enemy (*create_enemy)(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count)){
-  m_entities.push_back(
-    std::unique_ptr<Enemy>(new Enemy(create_enemy(pos, vel, mesh_id, scale, angle, split_count)))
-  );
-}
-
-void EntityManager::spawn_proj(Projectile (*create_proj)()){
-  m_entities.push_back(
-    std::unique_ptr<Projectile>(
-      new Projectile(create_proj())
-    )
-  ); 
 }
 
 void EntityManager::init_mesh_map(){

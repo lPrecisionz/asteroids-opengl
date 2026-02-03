@@ -16,9 +16,6 @@ void Game::run(){
     m_entity_manager.m_meshes, m_shader
   };
 
-  //Player player = spawn_player();
-  //m_player = &player;
-  //spawn_health_bar();
   float prev_frame {0}, 
         time_buff  {0};
   while(!m_window_manager.window_should_close()){
@@ -27,26 +24,19 @@ void Game::run(){
     prev_frame = curr_frame;
     time_buff += m_delta_time;
 
-    /*if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
-      time_buff = 0;
-      m_entities.push_back(
-          std::unique_ptr<Enemy>(new Enemy(create_enemy()))
-      );
-    }*/
     if(time_buff > m_conf.base_spawn_rate / m_conf.curr_diff){
       time_buff = 0;
       auto curr_enemy = create_enemy();
-      m_entity_manager.spawn_enemy(curr_enemy);
+      m_entity_manager.spawn_entity(curr_enemy);
     }
 
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
     m_shader.use();
-    //renderer.draw_scene(m_entities, *m_player);
     renderer.draw_scene(m_entity_manager.m_entities, m_entity_manager.m_player);
+
     m_entity_manager.update_entities(m_delta_time);
     m_entity_manager.cleanup_entities();
-
-    //m_player->handle(m_delta_time);
+    m_entity_manager.m_player.handle(m_delta_time);
     //update_entities();
     //asteroid_player_coll();
     //asteroid_proj_coll();
@@ -79,13 +69,15 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
       if(action == GLFW_PRESS)
         m_entity_manager.m_player.set_state(PlayerState::SPIN_RIGHT);
       else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_RIGHT)
-        m_entity_manager.m_player.set_state(PlayerState::IDLE);      
+        m_entity_manager.m_player.set_state(PlayerState::IDLE);
       break;
     case GLFW_KEY_SPACE:
-      if(action == GLFW_PRESS)
-        m_entities.push_back( 
-          std::unique_ptr<Projectile>(new Projectile(create_proj()))
+      if(action == GLFW_PRESS){
+        auto proj = create_proj();
+        m_entity_manager.spawn_entity(
+          proj
         );
+      }
       break;
     case GLFW_KEY_E:
       if(action == GLFW_PRESS)
@@ -94,14 +86,6 @@ void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, i
         );
       break;
   }
-}
-
-void Game::init_mesh_map(){
-  m_meshes = { 
-    { "Ship",       Mesh(player_mesh    , player_vertex_attr)   },
-    { "Projectile", Mesh(proj_mesh      , proj_vert_attr)       }, 
-    { "Asteroid01", Mesh(asteroid01_mesh, asteroid01_vertex_arr)}
-  };
 }
 
 Player Game::spawn_player(){
@@ -115,7 +99,7 @@ Player Game::spawn_player(){
   return Player(player_pos, player_vel, player_mesh, player_scale, player_angle, spin_speed);
 }
 
-Projectile Game::create_proj(){
+std::unique_ptr<Entity> Game::create_proj(){
   float ship_height = (SHIP_HEIGHT * m_entity_manager.m_player.m_scale) / 2.0f;
   float proj_angle = m_entity_manager.m_player.m_angle + PLAYER_OFFSET_ANGLE; 
   float proj_scale = 0.05f;
@@ -128,7 +112,9 @@ Projectile Game::create_proj(){
   point proj_vel = {vel_x * speed, vel_y * speed};
   point proj_pos = point(vel_x * ship_height, vel_y * ship_height);
 
-  return Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle, EntityID::PROJECTILE, PROJ_MAX_DIST);
+  return std::unique_ptr<Projectile>(
+    new Projectile(proj_pos, proj_vel, proj_mesh, proj_scale, proj_angle, EntityID::PROJECTILE, PROJ_MAX_DIST)
+  );
 }
 
 std::unique_ptr<Entity> Game::create_enemy(){
@@ -234,30 +220,8 @@ unsigned int Game::enemy_value(const Enemy& enemy){
   return 100;
 }
 
-void Game::update_entities(){
-  for(auto &e : m_entities){
-    e->update(m_delta_time);
-  }
-}
-
-void Game::cleanup_entities(){
-  for(size_t i = 0; i < m_entities.size(); ++i){
-    if(m_entities.at(i)->m_should_destroy)
-      m_entities.erase(m_entities.begin() + i);
-  }
-}
-
-std::vector<Entity*> Game::cache_entities(const EntityID &type){
-  std::vector<Entity*> cached_entities; 
-  for(auto& e : m_entities){
-    if(e->m_id == type)
-      cached_entities.push_back(e.get());
-  }
-  return cached_entities;
-}
-
 void Game::asteroid_player_coll(){
-  std::vector<Entity*> asteroids = cache_entities(EntityID::ENEMY);
+  std::vector<Entity*> asteroids = m_entity_manager.cache_entities(EntityID::ENEMY);
   for(auto&e : asteroids){
     if(check_coll(m_entity_manager.m_player.m_radius, m_entity_manager.m_player.m_pos, e->m_pos))
       std::cout << "Collision!" << std::endl;
@@ -265,8 +229,8 @@ void Game::asteroid_player_coll(){
 }
 
 void Game::asteroid_proj_coll(){
-  std::vector<Entity*> asteroids   = cache_entities(EntityID::ENEMY);  
-  std::vector<Entity*> projectiles = cache_entities(EntityID::PROJECTILE);
+  std::vector<Entity*> asteroids   = m_entity_manager.cache_entities(EntityID::ENEMY);  
+  std::vector<Entity*> projectiles = m_entity_manager.cache_entities(EntityID::PROJECTILE);
 
   for(Entity* &ast : asteroids){
     for(Entity* &proj: projectiles){
