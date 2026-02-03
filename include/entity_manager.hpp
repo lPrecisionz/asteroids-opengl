@@ -3,8 +3,6 @@
 #include "mesh.hpp"
 #include "entity.hpp"
 #include "player.hpp"
-#include "projectile.hpp"
-#include "enemy.hpp"
 #include <map>
 #include <vector>
 #include <memory>

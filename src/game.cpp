@@ -1,7 +1,5 @@
 #include "../include/game.hpp"
 #include "../models/player_model.hpp"
-#include "../models/projectile_model.hpp"
-#include "../models/asteroids.hpp"
 #include "../include/renderer.hpp"
 #include "entity.hpp"
 #include <GLFW/glfw3.h>
@@ -37,9 +35,9 @@ void Game::run(){
     m_entity_manager.update_entities(m_delta_time);
     m_entity_manager.cleanup_entities();
     m_entity_manager.m_player.handle(m_delta_time);
-    //update_entities();
+
+    asteroid_proj_coll();
     //asteroid_player_coll();
-    //asteroid_proj_coll();
     //cleanup_entities();
 
     m_window_manager.swap_buffer();
@@ -149,11 +147,10 @@ void Game::explode(const point &pos, const float &scale){
                 vel_y = sin(glm::radians(particle_angle)), 
                 speed = 0.5f;
     point vel = {vel_x * speed, vel_y * speed};
-    m_entities.push_back(
-      std::unique_ptr<Projectile>(
-        new Projectile(pos, vel, particle_mesh, particle_scale, particle_angle, EntityID::PARTICLE, max_distance)
-      )
-    ); 
+    std::unique_ptr<Entity> particle = std::unique_ptr<Projectile>(
+      new Projectile(pos, vel, particle_mesh, particle_scale, particle_angle, EntityID::PARTICLE, max_distance)
+    );
+    m_entity_manager.spawn_entity(particle);
   }
 }
 
@@ -168,10 +165,8 @@ void Game::split_enemy(const point &pos, const float &scale, const unsigned int 
                 vel_y = sin(glm::radians(angle)), 
                 speed = 0.5f;
     point enemy_vel = {vel_x * speed, vel_y * speed};
-
-    m_entities.push_back(
-      std::unique_ptr<Enemy>(new Enemy(create_enemy(pos, enemy_vel, mesh_id, curr_scale, angle, split_count)))
-    );
+    std::unique_ptr<Entity> enemy = std::unique_ptr<Enemy>(new Enemy(create_enemy(pos, enemy_vel, mesh_id, curr_scale, angle, split_count)));
+    m_entity_manager.spawn_entity(enemy);
   }
 }
 
