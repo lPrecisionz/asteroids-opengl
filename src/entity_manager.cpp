@@ -59,7 +59,12 @@ bool EntityManager::kill_player(){
       break;
     }
   }
-  return true;
+  m_player.set_state(PlayerState::INACTIVE);
+  return false;
+}
+
+bool EntityManager::player_active(){
+  return m_player.m_state != PlayerState::INACTIVE;
 }
 
 std::vector<Entity*> EntityManager::cache_entities(const EntityID &type){

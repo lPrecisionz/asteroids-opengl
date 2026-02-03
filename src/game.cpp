@@ -18,6 +18,7 @@ void Game::run(){
 
   float prev_frame        {0};
   float enemy_time_buffer {0};
+  float player_time_buffer{0};
 
   spawn_health_bar();
 
@@ -31,6 +32,14 @@ void Game::run(){
       enemy_time_buffer = 0;
       auto curr_enemy = create_enemy();
       m_entity_manager.spawn_entity(curr_enemy);
+    }
+
+    if(!m_entity_manager.player_active()){
+      player_time_buffer += m_delta_time;
+      if(player_time_buffer > m_entity_manager.m_player.m_death_cooldown){
+        m_entity_manager.m_player.m_state = PlayerState::IDLE;
+        player_time_buffer = 0;
+      }
     }
 
     m_window_manager.clear_color(0.0f, 0.0f, 0.0f, 1.0f);
@@ -60,6 +69,7 @@ void Game::set_input_callback(){
 
 void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, int mods){
   //TODO : Clean up this mess
+  if(!m_entity_manager.player_active()) return;
   switch(key){
     case GLFW_KEY_LEFT:
       if(action == GLFW_PRESS)
@@ -214,11 +224,12 @@ unsigned int Game::enemy_value(const Enemy& enemy){
 }
 
 void Game::asteroid_player_coll(){
+  if(!m_entity_manager.player_active()) return;
   std::vector<Entity*> asteroids = m_entity_manager.cache_entities(EntityID::ENEMY);
   for(auto&e : asteroids){
     if(check_coll(m_entity_manager.m_player.m_radius, m_entity_manager.m_player.m_pos, e->m_pos)){
       bool player_dead = m_entity_manager.kill_player();
-      std::cout << "Collision!" << std::endl;
+      if(player_dead) exit(1);
     }
   }
 }

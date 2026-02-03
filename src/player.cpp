@@ -1,5 +1,4 @@
 #include "../include/player.hpp"
-#include <iostream>
 
 namespace Asteroids{
 
@@ -14,6 +13,8 @@ void Player::handle(const float &delta_time){
       break;
     case PlayerState::SPIN_LEFT:
       rotate(m_spin_speed, delta_time);
+      break;
+    case PlayerState::INACTIVE:
       break;
     default:
       return;

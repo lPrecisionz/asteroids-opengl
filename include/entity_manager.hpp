@@ -22,6 +22,7 @@ public :
   void cleanup_entities();
   std::vector<Entity*> cache_entities(const EntityID &type);
   bool kill_player();
+  bool player_active();
 
 private: 
   void    init_mesh_map();
