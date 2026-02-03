@@ -45,6 +45,31 @@ enum GameState {
   GAMEOVER
 };
 
+enum KeyState {
+  FREE, 
+  PRESSED, 
+  HELD, 
+  RELEASED
+};
+
+struct key{
+  KeyState state;
+};
+
+struct InputHandler {
+  key left_arrow  { FREE };
+  key right_arrow { FREE };
+  key space_bar   { FREE };
+  key escape      { FREE };
+
+  void free_keys() {
+    left_arrow.state  = FREE; 
+    right_arrow.state = FREE;
+    space_bar.state   = FREE;
+    escape.state      = FREE;
+  }
+};
+
 class Game {
 private: 
   WindowManager  m_window_manager;
@@ -53,8 +78,10 @@ private:
   game_config    m_conf;
   RandomEngine   m_random_engine;
   TimeController m_time_contr;
-  unsigned int  m_score {0};
-  float         m_delta_time {0};
+  InputHandler   m_input_handler;
+
+  unsigned int   m_score      {0};
+  float          m_delta_time {0};
 
   std::map<std::string, Mesh>          m_meshes;
   std::vector<std::unique_ptr<Entity>> m_entities;

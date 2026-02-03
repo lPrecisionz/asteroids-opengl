@@ -28,6 +28,8 @@ void Game::run(){
 
     m_window_manager.swap_buffer();
     m_window_manager.poll_events();
+
+    m_input_handler.free_keys();
   }
 }
 
@@ -69,21 +71,27 @@ void Game::set_input_callback(){
   });
 }
 
+// This function is soon to be abstracted from this class. 
 void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, int mods){
-  //TODO : Clean up this mess
   if(!m_entity_manager.player_active()) return;
   switch(key){
     case GLFW_KEY_LEFT:
-      if(action == GLFW_PRESS)
+      if(action == GLFW_PRESS){
         m_entity_manager.m_player.set_state(PlayerState::SPIN_LEFT);
-      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_LEFT)
-       m_entity_manager.m_player.set_state(PlayerState::IDLE);
+        m_input_handler.left_arrow.state = KeyState::PRESSED;
+      }
+      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_LEFT){
+        m_entity_manager.m_player.set_state(PlayerState::IDLE);
+        m_input_handler.left_arrow.state = KeyState::RELEASED;
+      }
       break;
     case GLFW_KEY_RIGHT:
-      if(action == GLFW_PRESS)
+      if(action == GLFW_PRESS){
         m_entity_manager.m_player.set_state(PlayerState::SPIN_RIGHT);
-      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_RIGHT)
+      }
+      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_RIGHT){
         m_entity_manager.m_player.set_state(PlayerState::IDLE);
+      }
       break;
     case GLFW_KEY_SPACE:
       if(action == GLFW_PRESS){
