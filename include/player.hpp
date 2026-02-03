@@ -22,10 +22,6 @@ public:
       m_id     = EntityID::PLAYER;
       m_radius = SHIP_HEIGHT*scale;
   }
-  Player(const Player &p) : Entity(p.m_pos, p.m_vel, p.m_mesh_id, p.m_scale, p.m_angle), m_spin_speed(p.m_spin_speed) {
-    m_id     = EntityID::PLAYER;
-    m_radius = SHIP_HEIGHT*p.m_scale;
-  }
   void set_state(const PlayerState s){ m_state = s;}
   void handle(const float &delta_time);
   bool is_dead() const{ return m_state == PlayerState::INACTIVE;}

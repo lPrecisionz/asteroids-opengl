@@ -2,6 +2,7 @@
 #include "../models/player_model.hpp"
 #include "../include/renderer.hpp"
 #include "entity.hpp"
+#include "projectile.hpp"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -11,11 +12,15 @@ namespace Asteroids{
 
 void Game::run(){
   Renderer renderer {
-    m_entity_manager.m_meshes, m_shader
+    m_entity_manager.m_meshes, 
+    m_shader
   };
 
-  float prev_frame {0}, 
-        time_buff  {0};
+  float prev_frame {0};
+  float time_buff {0};
+
+  spawn_health_bar();
+
   while(!m_window_manager.window_should_close()){
     float curr_frame = glfwGetTime();
     m_delta_time = curr_frame - prev_frame;
@@ -132,10 +137,6 @@ std::unique_ptr<Entity> Game::create_enemy(){
   );
 }
 
-Enemy Game::create_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count){
-  return Enemy(pos, vel, mesh_id, scale, angle, split_count);
-}
-
 void Game::explode(const point &pos, const float &scale){
   std::string particle_mesh {"Projectile"};
   int particle_count = static_cast<int>(scale * 20);
@@ -165,7 +166,7 @@ void Game::split_enemy(const point &pos, const float &scale, const unsigned int 
                 vel_y = sin(glm::radians(angle)), 
                 speed = 0.5f;
     point enemy_vel = {vel_x * speed, vel_y * speed};
-    std::unique_ptr<Entity> enemy = std::unique_ptr<Enemy>(new Enemy(create_enemy(pos, enemy_vel, mesh_id, curr_scale, angle, split_count)));
+    std::unique_ptr<Entity> enemy = std::unique_ptr<Enemy>(new Enemy(pos, enemy_vel, mesh_id, curr_scale, angle, split_count));
     m_entity_manager.spawn_entity(enemy);
   }
 }
@@ -231,10 +232,10 @@ void Game::asteroid_proj_coll(){
       if(check_coll(ast->m_radius, ast->m_pos, proj->m_pos)){
         Enemy* enemy = static_cast<Enemy*>(ast);
         bool should_split = enemy->die();
+        explode(enemy->m_pos, enemy->m_scale);
         compute_score(*enemy);
         if(should_split){
           split_enemy(enemy->m_pos, enemy->m_scale, enemy->m_split_count+1);
-          explode(enemy->m_pos, enemy->m_scale);
         }
         proj->destroy();
       } 
@@ -243,7 +244,6 @@ void Game::asteroid_proj_coll(){
 }
 
 bool Game::check_coll(const float &radius_a, const point &a, const point &b) const{
-  //float distance = sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2));
   float distance = sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2));
   return distance < radius_a;
 }

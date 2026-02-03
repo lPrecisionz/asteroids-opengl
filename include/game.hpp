@@ -4,7 +4,6 @@
 #include "entity.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
-#include "projectile.hpp"
 #include "shader.hpp"
 #include "random.hpp"
 #include "entity_manager.hpp"
@@ -64,15 +63,18 @@ public:
 private:
   void set_input_callback();
   void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods);
+
   Player spawn_player();
+  void spawn_health_bar();
   std::unique_ptr<Entity> create_proj();
   std::unique_ptr<Entity> create_enemy();
-  Enemy      create_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count);
+
   void explode(const point &pos, const float &scale);
   void split_enemy(const point &pos, const float &scale, const unsigned int &split_count);
-  void spawn_health_bar();
+
   void compute_score(const Enemy &enemy); 
   unsigned int enemy_value(const Enemy& enemy);
+
   void asteroid_player_coll();
   void asteroid_proj_coll();
   bool check_coll(const float &radius_a, const point &a, const point &b) const;
