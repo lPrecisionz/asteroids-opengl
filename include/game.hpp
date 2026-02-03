@@ -1,4 +1,5 @@
 #pragma once
+#include "renderer.hpp"
 #include "window.hpp"
 #include "mesh.hpp"
 #include "entity.hpp"
@@ -33,6 +34,11 @@ struct game_config {
   float        curr_diff        {1.0f};
 };
 
+struct TimeController {
+  float enemy {0};
+  float player{0};
+};
+
 enum GameState {
   MAIN_MENU, 
   GAMEPLAY, 
@@ -41,13 +47,14 @@ enum GameState {
 
 class Game {
 private: 
-  WindowManager m_window_manager;
-  EntityManager m_entity_manager;
-  Shader        m_shader;
+  WindowManager  m_window_manager;
+  EntityManager  m_entity_manager;
+  Shader         m_shader;
+  game_config    m_conf;
+  RandomEngine   m_random_engine;
+  TimeController m_time_contr;
   unsigned int  m_score {0};
   float         m_delta_time {0};
-  RandomEngine  m_random_engine;
-  game_config   m_conf;
 
   std::map<std::string, Mesh>          m_meshes;
   std::vector<std::unique_ptr<Entity>> m_entities;
@@ -61,6 +68,8 @@ public:
   void run();
 
 private:
+  void gameplay(Renderer &renderer);
+
   void set_input_callback();
   void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods);
 

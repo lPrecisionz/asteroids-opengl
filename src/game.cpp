@@ -16,29 +16,35 @@ void Game::run(){
     m_shader
   };
 
-  float prev_frame        {0};
-  float enemy_time_buffer {0};
-  float player_time_buffer{0};
-
+  float prev_frame{0};
   spawn_health_bar();
-
   while(!m_window_manager.window_should_close()){
     float curr_frame = glfwGetTime();
     m_delta_time = curr_frame - prev_frame;
     prev_frame = curr_frame;
-    enemy_time_buffer += m_delta_time;
+    m_time_contr.enemy += m_delta_time;
 
-    if(enemy_time_buffer > m_conf.base_spawn_rate / m_conf.curr_diff){
-      enemy_time_buffer = 0;
+    gameplay(renderer);
+
+    m_window_manager.swap_buffer();
+    m_window_manager.poll_events();
+  }
+}
+
+void Game::gameplay(Renderer &renderer){
+    // enemy spawn timer
+    if(m_time_contr.enemy > m_conf.base_spawn_rate / m_conf.curr_diff){
+       m_time_contr.enemy = 0;
       auto curr_enemy = create_enemy();
       m_entity_manager.spawn_entity(curr_enemy);
     }
-
+    
+    // player death cooldown
     if(!m_entity_manager.player_active()){
-      player_time_buffer += m_delta_time;
-      if(player_time_buffer > m_entity_manager.m_player.m_death_cooldown){
+      m_time_contr.player += m_delta_time;
+      if(m_time_contr.player > m_entity_manager.m_player.m_death_cooldown){
         m_entity_manager.m_player.m_state = PlayerState::IDLE;
-        player_time_buffer = 0;
+        m_time_contr.player = 0;
       }
     }
 
@@ -52,10 +58,6 @@ void Game::run(){
 
     asteroid_proj_coll();
     asteroid_player_coll();
-
-    m_window_manager.swap_buffer();
-    m_window_manager.poll_events();
-  }
 }
 
 void Game::set_input_callback(){
