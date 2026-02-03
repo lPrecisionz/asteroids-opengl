@@ -187,9 +187,8 @@ void Game::spawn_health_bar(){
 
     Entity health_ship = Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle);
     health_ship.m_scale = 0.5f;
-    m_entities.push_back(
-      std::unique_ptr<Entity>(new Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle))
-    );
+    auto health = std::unique_ptr<Entity>(new Entity(bar_pos, bar_vel, bar_mesh, bar_scale, bar_angle));
+    m_entity_manager.spawn_entity(health);
   }
 }
 
