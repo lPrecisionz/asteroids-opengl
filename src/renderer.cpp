@@ -1,6 +1,5 @@
 #include "../include/renderer.hpp"
 #include <glm/ext/matrix_transform.hpp>
-#include "error.hpp"
 
 namespace Asteroids{
 

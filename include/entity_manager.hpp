@@ -22,12 +22,13 @@ public :
   void spawn_enemy(std::unique_ptr<Entity> &enemy);
   void spawn_enemy(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count, Enemy (*create_enemy)(const point &pos, const point &vel, const std::string &mesh_id, const float &scale, const float &angle, const unsigned int &split_count));
   void spawn_proj(Projectile (*create_projectile)());
+  void update_entities(float &dt);
+  void cleanup_entities();
+
 
 private: 
   void       init_mesh_map();
-  void       update_entities(float &dt);
-  void       cleanup_entities();
-  Player     spawn_player();
+    Player     spawn_player();
 
   std::vector<Entity*> cache_entities(const EntityID &type);
 };

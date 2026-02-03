@@ -43,6 +43,8 @@ void Game::run(){
     m_shader.use();
     //renderer.draw_scene(m_entities, *m_player);
     renderer.draw_scene(m_entity_manager.m_entities, m_entity_manager.m_player);
+    m_entity_manager.update_entities(m_delta_time);
+    m_entity_manager.cleanup_entities();
 
     //m_player->handle(m_delta_time);
     //update_entities();

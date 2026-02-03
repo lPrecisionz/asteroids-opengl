@@ -24,6 +24,7 @@ add_executable(Asteroids
     src/player.cpp
     src/projectile.cpp
     src/enemy.cpp
+    src/entity_manager.cpp
 )
 
 target_include_directories(Asteroids PRIVATE

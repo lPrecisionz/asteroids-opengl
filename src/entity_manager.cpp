@@ -57,7 +57,7 @@ Player EntityManager::spawn_player(){
   point player_pos {0, 0};
   point player_vel {0, 0};
   float player_angle {0.0f};
-  float player_scale {0.0f};
+  float player_scale {1.0f};
   std::string player_mesh {"Ship"};
 
   return Player(player_pos, player_vel, player_mesh, player_scale, player_angle, spin_speed); 
