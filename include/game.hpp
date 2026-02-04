@@ -45,28 +45,30 @@ enum GameState {
   GAMEOVER
 };
 
-enum KeyState {
-  FREE, 
-  PRESSED, 
-  HELD, 
-  RELEASED
-};
-
+// negate pressed at the end of every frame
+// negate down only when GLFW_RELEASE
 struct key{
-  KeyState state;
+  bool pressed  { false }; 
+  bool down     { false }; 
+  bool released { false };
 };
 
 struct InputHandler {
-  key left_arrow  { FREE };
-  key right_arrow { FREE };
-  key space_bar   { FREE };
-  key escape      { FREE };
-
+  key left_arrow  ;
+  key right_arrow ;
+  key space_bar   ;
+  key escape      ;
+ 
   void free_keys() {
-    left_arrow.state  = FREE; 
-    right_arrow.state = FREE;
-    space_bar.state   = FREE;
-    escape.state      = FREE;
+    left_arrow  .pressed = false; 
+    right_arrow .pressed = false;
+    space_bar   .pressed = false;
+    escape      .pressed = false;
+    
+    left_arrow  .released = false;
+    right_arrow .released = false;
+    space_bar   .released = false;
+    escape      .released = false;
   }
 };
 
@@ -99,6 +101,7 @@ private:
 
   void set_input_callback();
   void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods);
+  void control_player();
 
   Player spawn_player();
   void spawn_health_bar();

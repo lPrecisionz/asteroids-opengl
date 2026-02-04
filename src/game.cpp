@@ -19,6 +19,8 @@ void Game::run(){
   float prev_frame{0};
   spawn_health_bar();
   while(!m_window_manager.window_should_close()){
+    m_window_manager.poll_events();
+
     float curr_frame = glfwGetTime();
     m_delta_time = curr_frame - prev_frame;
     prev_frame = curr_frame;
@@ -27,8 +29,6 @@ void Game::run(){
     gameplay(renderer);
 
     m_window_manager.swap_buffer();
-    m_window_manager.poll_events();
-
     m_input_handler.free_keys();
   }
 }
@@ -56,6 +56,7 @@ void Game::gameplay(Renderer &renderer){
 
     m_entity_manager.update_entities(m_delta_time);
     m_entity_manager.cleanup_entities();
+    control_player();
     m_entity_manager.m_player.handle(m_delta_time);
 
     asteroid_proj_coll();
@@ -73,36 +74,59 @@ void Game::set_input_callback(){
 
 // This function is soon to be abstracted from this class. 
 void Game::handle_input(GLFWwindow* window, int key, int scancode, int action, int mods){
-  if(!m_entity_manager.player_active()) return;
   switch(key){
     case GLFW_KEY_LEFT:
       if(action == GLFW_PRESS){
-        m_entity_manager.m_player.set_state(PlayerState::SPIN_LEFT);
-        m_input_handler.left_arrow.state = KeyState::PRESSED;
+        m_input_handler.left_arrow.pressed = true;
+        m_input_handler.left_arrow.down = true;
       }
-      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_LEFT){
-        m_entity_manager.m_player.set_state(PlayerState::IDLE);
-        m_input_handler.left_arrow.state = KeyState::RELEASED;
+      else if (action == GLFW_RELEASE){
+        m_input_handler.left_arrow.released = true;
+        m_input_handler.left_arrow.down = false;
       }
       break;
     case GLFW_KEY_RIGHT:
       if(action == GLFW_PRESS){
-        m_entity_manager.m_player.set_state(PlayerState::SPIN_RIGHT);
+        m_input_handler.right_arrow.pressed = true;
+        m_input_handler.right_arrow.down = true;
       }
-      else if (action == GLFW_RELEASE && m_entity_manager.m_player.m_state == PlayerState::SPIN_RIGHT){
-        m_entity_manager.m_player.set_state(PlayerState::IDLE);
+      else if (action == GLFW_RELEASE){
+        m_input_handler.right_arrow.released = true;
+        m_input_handler.right_arrow.down = false;
       }
       break;
     case GLFW_KEY_SPACE:
       if(action == GLFW_PRESS){
-        auto proj = create_proj();
-        m_entity_manager.spawn_entity(
-          proj
-        );
+        m_input_handler.space_bar.pressed = true;
+      }
+      else if (action == GLFW_RELEASE){
+        m_input_handler.space_bar.released = true;
+        m_input_handler.space_bar.down = false;
       }
       break;
     default:
       return;
+  }
+}
+
+void Game::control_player(){
+  if(!m_entity_manager.player_active()) return;
+
+  if(m_input_handler.left_arrow.down)
+    m_entity_manager.m_player.set_state(PlayerState::SPIN_LEFT);
+  if(m_input_handler.left_arrow.released)
+    m_entity_manager.m_player.set_state(PlayerState::IDLE);
+
+  if(m_input_handler.right_arrow.down)
+    m_entity_manager.m_player.set_state(PlayerState::SPIN_RIGHT);
+  if(m_input_handler.right_arrow.released)
+    m_entity_manager.m_player.set_state(PlayerState::IDLE);
+
+  if(m_input_handler.space_bar.pressed){
+    auto proj = create_proj();
+    m_entity_manager.spawn_entity(
+      proj
+    );
   }
 }
 
