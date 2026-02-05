@@ -25,18 +25,28 @@ struct shader_data {
   const char* fragment_path;
 };
 
-struct game_config {
-  const float  base_spawn_rate  {1.0f};
-  const float  base_speed_rate  {1.0f};
-  const float  diff_incr_rate   {0.01f};
-  unsigned int diff_incr_interv {100};
-  unsigned int curr_step        {1};
-  float        curr_diff        {1.0f};
+struct GameConfig {
+  const float        base_spawn_rate  {1.0f};
+  const float        base_speed_rate  {1.0f};
+  const float        diff_incr_rate   {0.01f};
+  const unsigned int diff_incr_interv {100};
+
+  unsigned int curr_step {1};
+  float        curr_diff {1.0f};
+
+  void reset(){
+    curr_step = 1; 
+    curr_diff = 1.0f;
+  }
 };
 
 struct TimeController {
   float enemy {0};
   float player{0};
+  void reset(){
+    enemy = 0; 
+    player = 0;
+  }
 };
 
 enum GameState {
@@ -45,8 +55,6 @@ enum GameState {
   GAMEOVER
 };
 
-// negate pressed at the end of every frame
-// negate down only when GLFW_RELEASE
 struct key{
   bool pressed  { false }; 
   bool down     { false }; 
@@ -77,7 +85,8 @@ private:
   WindowManager  m_window_manager;
   EntityManager  m_entity_manager;
   Shader         m_shader;
-  game_config    m_conf;
+  GameConfig     m_conf;
+  GameState      m_state;
   RandomEngine   m_random_engine;
   TimeController m_time_contr;
   InputHandler   m_input_handler;
@@ -91,20 +100,31 @@ private:
 public: 
   Game(const window_data &wd, const shader_data &sd) : 
     m_window_manager(wd.version, wd.width, wd.height, wd.name),
-    m_shader(sd.vertex_path, sd.fragment_path){
+    m_shader(sd.vertex_path, sd.fragment_path), 
+    m_state(GameState::MAIN_MENU){
     set_input_callback();
   }
   void run();
 
 private:
-  void gameplay(Renderer &renderer);
+  void set_state(const GameState state);
+  void handle_state();
+
+  void main_menu();
+  void gameplay();
+  void game_over();
+  void restart();
 
   void set_input_callback();
   void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods);
+  void control_menu();
   void control_player();
 
   Player spawn_player();
-  void spawn_health_bar();
+  void   spawn_health_bar();
+  void   enemy_spawner();
+  void   death_cooldown();
+
   std::unique_ptr<Entity> create_proj();
   std::unique_ptr<Entity> create_enemy();
 

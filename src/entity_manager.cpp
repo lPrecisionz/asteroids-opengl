@@ -11,6 +11,14 @@ EntityManager::EntityManager() : m_player(spawn_player()){
   init_mesh_map();
 }
 
+void EntityManager::respawn_player(){
+  m_player = spawn_player();
+}
+
+void EntityManager::clear_entities(){
+  m_entities.clear();
+}
+
 void EntityManager::spawn_entity(std::unique_ptr<Entity>& entity){
   m_entities.push_back(
     std::move(entity)
@@ -50,7 +58,10 @@ Player EntityManager::spawn_player(){
 }
 
 bool EntityManager::kill_player(){
-  if(m_player.m_life_count == 0) return true;
+  if(m_player.m_life_count == 0) {
+    m_player.set_state(PlayerState::INACTIVE);
+    return true;
+  }
 
   --m_player.m_life_count;
   for(size_t i = 0; i < m_entities.size(); ++i){

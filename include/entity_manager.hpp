@@ -23,6 +23,8 @@ public :
   std::vector<Entity*> cache_entities(const EntityID &type);
   bool kill_player();
   bool player_active();
+  void respawn_player();
+  void clear_entities();
 
 private: 
   void    init_mesh_map();

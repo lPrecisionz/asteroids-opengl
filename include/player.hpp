@@ -15,7 +15,7 @@ constexpr float PLAYER_OFFSET_ANGLE = 90.0f;
 
 class Player : public Entity{
 public:
-  PlayerState  m_state          { IDLE };
+  PlayerState  m_state          { INACTIVE };
   unsigned int m_life_count     { 3 };
   float        m_spin_speed     {3.0f};
   float        m_death_cooldown {3.0f};
