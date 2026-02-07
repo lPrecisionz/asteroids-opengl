@@ -1,5 +1,5 @@
 #pragma once
-#include "window.hpp"
+#include "../include/window.hpp"
 #include <vector>
 #include "../models/model.hpp"
 

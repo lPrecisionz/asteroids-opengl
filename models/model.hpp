@@ -1,11 +1,16 @@
 #pragma once
 #include <GLFW/glfw3.h>
 
+constexpr int    ATTR_COUNT  = 3;
+constexpr size_t MESH_STRIDE = ATTR_COUNT * sizeof(float);
+constexpr GLenum DRAW_KIND   = GL_LINES;
+constexpr int    ATTR_LOC    = 0;
+
 struct vertex_attr_data {
-  GLenum type;
+  GLenum       type;
   unsigned int location;
   unsigned int attr_count;
-  size_t offset;
+  size_t       offset;
 };
 
 struct mesh_data {
@@ -15,14 +20,4 @@ struct mesh_data {
   const GLenum draw_kind;
   const GLenum geometry_kind;
   const unsigned int vertice_count;
-
-
-  /*mesh_data(const mesh_data &md)
-    : vertex_arr(md.vertex_arr), 
-      arr_size(md.arr_size), 
-      stride(md.stride), 
-      draw_kind(md.draw_kind), 
-      geometry_kind(md.geometry_kind), 
-      vertice_count(md.vertice_count){}
-  */
 };

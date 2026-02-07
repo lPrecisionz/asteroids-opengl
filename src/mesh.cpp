@@ -1,5 +1,4 @@
 #include "../include/mesh.hpp"
-#include "../include/error.hpp"
 #include <iostream>
 
 namespace Asteroids{
@@ -32,7 +31,7 @@ void Mesh::init_vbo(const mesh_data &md, const std::vector<vertex_attr_data> &at
   glBufferData(GL_ARRAY_BUFFER, md.arr_size, md.vertex_arr, md.draw_kind);
 
   GLenum normalize_flag = GL_FALSE;
-  for(auto i : attr_data){
+  for(auto &i : attr_data){
     glVertexAttribPointer(i.location, i.attr_count, i.type, normalize_flag, md.stride, (void*)i.offset);
     glEnableVertexAttribArray(i.location);
   }
