@@ -34,7 +34,11 @@ cd asteroids-opengl
 
 ```bash
 cmake -S . -B build
+```
+```bash
 cmake --build build
+```
+```bash
 ./build/Asteroids
 ```
 
