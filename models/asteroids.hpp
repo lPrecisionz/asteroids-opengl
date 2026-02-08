@@ -38,6 +38,8 @@ const float asteroid01 [] = {
 };
 // 22 vertices
 
+const int ASTEROID01_VERTICES = 22;
+
 const std::vector<vertex_attr_data> asteroid01_vertex_arr {
   vertex_attr_data(GL_FLOAT, ATTR_LOC, ATTR_COUNT, 0) // type -> location -> attr count -> offset
 };
@@ -46,8 +48,8 @@ const mesh_data asteroid01_mesh = {
   mesh_data(asteroid01, 
             sizeof(asteroid01), 
             MESH_STRIDE, 
-            GL_STATIC_DRAW, 
+            DRAW_KIND, 
             GL_LINES,
-            22
+            ASTEROID01_VERTICES
   ) 
 };
